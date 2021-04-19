@@ -11,12 +11,18 @@
 </head>
 
 <body onload="onInit()">
-    <header class="flex align-center">
-        <img src="img/LOGO.png" class="logo" />
+    <header class="flex center">
+        <div class="gradient-contaoner flex center">
+            <div class="text-container flex">
+                <img src="img/LOGO.png" class="logo" />
+            </div>
+        </div>
     </header>
     <main>
-        <div class="gallery-container">
-            <img src="img/1.jpg" />
+        <div class="main-container">
+            <div class="gallery-container flex center">
+                <img src="img/1.jpg" />
+            </div>
         </div>
     </main>
     <footer>
@@ -24,13 +30,14 @@
     </footer>
 
     <div class="modal-container ">
-        <modal class="meme-editor-modal">
+        <modal class="meme-editor-modal flex align-center">
             <button class="btn-close-modal" onclick="onCloseModal()">X</button>
             <div class="canvas-container">
                 <canvas class="meme-canvas" height="500" width="500"></canvas>
             </div>
             <div class="canvas-controls flex align-center">
-                <input name="input-txt" type="text" placeholder="Your text" oninput="onTextChange()"></input>
+                <input class="input-txt" name="input-txt" type="text" placeholder="Your text:"
+                    oninput="onTextChange()"></input>
                 <div class="lines-controls flex">
                     <button class="btn-switch-line" onclick="onSwitchLine()"></button>
                     <button class="btn-add-line" onclick="onAddLine()"></button>

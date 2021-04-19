@@ -7,6 +7,9 @@ function onInit() {
     gElCanvas = document.querySelector('.meme-canvas');
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
+    window.addEventListener('resize', function(){
+        resizeCanvas();
+    });
 }
 
 function renderGallery() {
@@ -24,25 +27,26 @@ function onOpenModal(imgId) {
 }
 
 function renderModal() {
+    // resizeCanvas();
     let currMeme = getDefMeme();
     let imgUrl = getMemeUrl(currMeme);
     // Load the IMAGE befor rest of the render.
     const img = new Image()
     img.src = imgUrl;
     img.onload = drawImg(img);
+    let currY = currMeme.lines[gMeme.selectedLineIdx].pos.y;
+    let size = currMeme.lines[gMeme.selectedLineIdx].size;
+    gCtx.beginPath();
+    gCtx.rect(20, currY - size, 460, 1.2 * size);
+    gCtx.fillStyle = 'rgb(210, 210, 210, .7)';
+    gCtx.fillRect(20, currY - size, 460, 1.2 * size);
+    gCtx.strokeStyle = 'black';
+    gCtx.stroke();
     let txt = currMeme.lines[gMeme.selectedLineIdx].txt;
     document.querySelector('input[name="input-txt"]').value = txt;
     currMeme.lines.forEach(line => {
         drawTextLine(line);
-    })
-    let currY = currMeme.lines[gMeme.selectedLineIdx].pos.y;
-    let size = currMeme.lines[gMeme.selectedLineIdx].size;
-    gCtx.beginPath()
-    gCtx.rect(20, currY - size, 460, 1.2 * size);
-    gCtx.fillStyle = 'rgb(210, 210, 210, .25)';
-    gCtx.fillRect(20, currY - size, 460, 1.2 * size)
-    gCtx.strokeStyle = 'black'
-    gCtx.stroke()   
+    })  
 }
 
 function onAddLine() {
@@ -102,4 +106,10 @@ function onTextChange() {
     var elTxt = document.querySelector('input[name="input-txt"]').value;
     setTextChange(elTxt);
     renderModal();
+}
+
+function resizeCanvas() {
+    var elContainer = document.querySelector('.canvas-container');
+    gElCanvas.width = elContainer.offsetWidth;
+    gElCanvas.height = elContainer.offsetHeight;
 }

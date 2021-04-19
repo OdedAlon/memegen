@@ -10,6 +10,7 @@ html {
   
 body {
     margin: 0;
+    background-color: #22252C;	
 }
   
 h1,
@@ -29,6 +30,17 @@ a {
 
 /*   HEADER */
 
+.gradient-contaoner {
+    width: 98vw;
+    border-radius: 10rem;
+    margin: 10px;
+    background: linear-gradient(to right, #0F9BB4 0%, #30BB72 100%);
+}
+
+.text-container {
+    width: 90vw;
+}
+
 .logo {
     width: 200px;
     margin: 1rem;
@@ -36,7 +48,12 @@ a {
 
 /*   MAIN */
 
+.main-container {
+    width: 98vw;
+}
+
 .gallery-container {
+    background-color: #383B42;
     margin: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px);    
@@ -49,6 +66,16 @@ a {
     cursor: pointer;
 }
 
+/*   FOOTER */
+
+footer {
+    background-color: #000;
+    width: 100vw;
+    height: 100px;
+    bottom: 0;
+    position: fixed;
+}
+
 /*   meme-editor-MODAL */
 
 canvas {
@@ -59,11 +86,22 @@ canvas {
 .meme-editor-modal {
     display: none;
     position: fixed;
-    top: 5vh;
-    left: 5vw;
-    width: 90vw;
-    height: 90vh;
-    background-color: rgb(214, 212, 212);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 800px;
+    height: 700px;
+    background-color: #22252C;
+    border: 1px solid #4b4b4b;
+    flex-direction: row;
+    flex-wrap: no-wrap;
+}
+
+.canvas-container{
+    width: 300px;
+    height: 300px;
+    background-image: url(../img/Forme.png);
+    background-repeat: no-repeat;
 }
 
 .btn-close-modal {
@@ -77,10 +115,11 @@ canvas {
 
 .canvas-controls {
     flex-direction: column;
-    background-color: rgb(248, 195, 195);
-    width: 40vw;
+    background-color: #383B42;
+    width: 40%;
     justify-content: center;
-    /* text-align: center; */
+    margin: 20px;
+    border-radius: 4%;
 }
 
 .canvas-controls button {
@@ -89,6 +128,11 @@ canvas {
     font-size: 30px;
     border: 0;
     margin: 5px;
+}
+
+.input-txt {
+    margin: 10px;
+    font-size: 30px;
 }
 
 .btn-switch-line {
@@ -126,6 +170,10 @@ canvas {
     justify-content: space-between;
 }
 
+.center {
+    justify-content: center;
+}
+
 .align-center {
     align-items: center;
 }
@@ -134,4 +182,21 @@ canvas {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+/*                              *** MEDIA QUERIES ***             */
+
+/* LARGE */
+
+@media (min-width: 1200px) {
+    
+    .meme-editor-modal {
+        width: 1000px;
+        height: 700px;
+    }
+
+    .canvas-container{
+        width: 500px;
+        height: 500px;
+    }
 }
