@@ -16,7 +16,7 @@ var gMeme = {
         color: 'white' 
     } ] };
 
-function getCurrMeme() {
+function getDefMeme() {
     return gMeme;
 }
 
