@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" sizes="32x32" href="icon/favicon.png">
+    <link rel="stylesheet" href="css/main.css">
+    <title>Memegen</title>
+</head>
+
+<body onload="onMemesInit()">
+
+    <header class="flex center">
+        <div class="gradient-contaoner flex center">
+            <div class="text-container flex">
+                <img src="img/LOGO.png" class="logo" />
+            </div>
+            <div class="nav-bar flex align-center">
+                <a class="link-gallery" href="index.html">Gallery</a>
+                <a class="link-memes active" href="">Memes</a>
+                <a class="link-Abuot" href="#">About</a>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="memes-container center">
+            <canvas class="saved-meme-canvas" height="500" width="500"></canvas>
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+
+    <script src="js/storage-service.js"></script>
+    <script src="js/meme-service.js"></script>
+    <script src="js/controller.js"></script>
+</body>
+
+</html>

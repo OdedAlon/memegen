@@ -10,7 +10,7 @@ function onInit() {
     // window.addEventListener('resize', function(){
     //     resizeCanvas();
     // });
-    document.querySelector('.meme-editor-modal').style.display = 'none';
+    // document.querySelector('.meme-editor-modal').style.display = 'none';
 }
 
 function renderGallery() {
@@ -22,7 +22,8 @@ function renderGallery() {
 }
 
 function onOpenModal(imgId) {
-    document.querySelector('.meme-editor-modal').style.display = 'grid';
+    toggleMenu();
+    // document.querySelector('.meme-editor-modal').style.display = 'grid';
     setImgOfDefMeme(imgId);
     renderModal();
 }
@@ -87,8 +88,9 @@ function onChangeUpDownRow(change) {
 }
 
 function onCloseModal() {
-    document.querySelector('.meme-editor-modal').style.display = 'none';
+    // document.querySelector('.meme-editor-modal').style.display = 'none';
     resetCurrMeme();
+    toggleMenu()
 }
 
 function drawImg(img) {
@@ -109,8 +111,73 @@ function onTextChange() {
     renderModal();
 }
 
-function resizeCanvas() {
-    var elContainer = document.querySelector('.canvas-container');
-    gElCanvas.width = elContainer.offsetWidth;
-    gElCanvas.height = elContainer.offsetHeight;
+// function resizeCanvas() {
+//     var elContainer = document.querySelector('.canvas-container');
+//     gElCanvas.width = elContainer.offsetWidth;
+//     gElCanvas.height = elContainer.offsetHeight;
+// }
+
+function toggleMenu() {
+    document.body.classList.toggle('menu-open')
+}
+
+// TODO: Add a modal that saies it saved;
+function onSaveMeme() {
+    saveMeme(gElCanvas.toDataURL());
+}
+
+function onMemesInit() {
+    renderMemes();
+}
+
+// TODO: Change from id to data;
+function renderMemes() {
+    let memesAsPNG = getMemesAsPNG();
+    let strHtml = '';
+    for (let i = 0; i < memesAsPNG.length; i++) {
+        strHtml += `<canvas class="saved-meme-canvas" id="${i}" height="500" width="500"></canvas>`;
+    }
+    document.querySelector('.memes-container').innerHTML = strHtml;
+
+    // TODO: Replace FOR with REDUCE.
+    for (let i = 0; i < memesAsPNG.length; i++) {
+        let img = new Image();
+        img.onload = () => {
+          let elCanvas = document.getElementById(`${i}`);
+          let ctx = elCanvas.getContext('2d');
+          ctx.drawImage(img, 0, 0);
+        }
+        img.src = memesAsPNG[i];
+    }
+
+    // memesAsPNG.reduce((acc, meme) => {
+    //     acc++;
+    //     console.log(acc)
+    //     let img = new Image();
+    //     img.onload = () => {
+    //       let elCanvas = document.getElementById(`${acc}`);
+    //       let ctx = elCanvas.getContext('2d');
+    //       ctx.drawImage(img, 0, 0);
+    //     }
+    //     img.src = meme;
+    //     // acc++;
+    // }, 0)
+    // let img = new Image();
+    // img.onload = () => {
+    //   let elCanvas = document.querySelector('.saved-meme-canvas');
+    //   let ctx = elCanvas.getContext('2d');
+    //   ctx.drawImage(img, 0, 0);
+    // }
+    // img.src = memesAsPNG[0];
+
+    // let strHtmls = memes.map(meme => {
+    //     return `<img src=${img.url} onclick="onOpenModal(${img.id})" />`
+    // });
+    // document.querySelector('.gallery-container').innerHTML = strHtmls.join('');   
+}
+
+function downloadCanvas(elLink) {
+    const data = gElCanvas.toDataURL();
+    elLink.href = data;
+    elLink.download = 'my-canvas.jpg';
 }

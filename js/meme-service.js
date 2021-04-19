@@ -5,12 +5,6 @@ var gImgs = [
     {id: 1, url: 'img/1.jpg', keywords: ['happy']},
     {id: 2, url: 'img/2.jpg', keywords: ['happy']},
     {id: 3, url: 'img/3.jpg', keywords: ['happy']},
-    {id: 1, url: 'img/1.jpg', keywords: ['happy']},
-    {id: 2, url: 'img/2.jpg', keywords: ['happy']},
-    {id: 3, url: 'img/3.jpg', keywords: ['happy']},
-    {id: 1, url: 'img/1.jpg', keywords: ['happy']},
-    {id: 2, url: 'img/2.jpg', keywords: ['happy']},
-    {id: 3, url: 'img/3.jpg', keywords: ['happy']},
     ]; 
 var gMeme = { 
     selectedImgId: 1, 
@@ -22,6 +16,8 @@ var gMeme = {
         color: 'white',
         pos: {x: 250, y: 50} 
     } ] };
+var gMemes = loadFromStorage('memes');
+var gMemesAsPNG  = loadFromStorage('memesAsPNG');
 
 function getDefMeme() {
     return gMeme;
@@ -92,4 +88,25 @@ function resetCurrMeme() {
             color: 'white',
             pos: {x: 250, y: 50} 
         } ] };
+}
+
+function saveMeme(memePngUrl) {
+    let memes = loadFromStorage('memes');
+    if (!memes) memes = [];
+    memes.push(gMeme);
+    gMemes = memes;
+    console.log(gMemes);
+    saveToStorage('memes', gMemes);
+    // From here - saves the url.
+    let memesAsPNG = loadFromStorage('memesAsPNG');
+    if (!memesAsPNG) memesAsPNG = [];
+    memesAsPNG.push(memePngUrl);
+    gMemesAsPNG = memesAsPNG; 
+    console.log(gMemesAsPNG);
+    saveToStorage('memesAsPNG', gMemesAsPNG);
+}
+
+function getMemesAsPNG() {
+    if (!gMemesAsPNG) gMemesAsPNG = [];
+    return gMemesAsPNG;
 }
