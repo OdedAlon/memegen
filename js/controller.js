@@ -22,7 +22,7 @@ function renderGallery() {
 }
 
 function onOpenModal(imgId) {
-    document.querySelector('.meme-editor-modal').style.display = 'flex';
+    document.querySelector('.meme-editor-modal').style.display = 'grid';
     setImgOfDefMeme(imgId);
     renderModal();
 }

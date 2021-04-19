@@ -58,7 +58,7 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fill, 200px);    
     grid-template-rows: 200px;
-    gap: 10px 20px;
+    gap: 20px 20px;
 }
 
 .gallery-container img {
@@ -80,7 +80,7 @@ footer {
 
 canvas {
     background-color: #fff;
-    margin: 20px;
+    margin: 40px;
 }
 
 .meme-editor-modal {
@@ -89,17 +89,15 @@ canvas {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 98vw;
-    height: 700px;
+    width: 580px;
+    height: 95vh;
     background-color: #22252C;
     border: 1px solid #4b4b4b;
-    flex-direction: row;
-    flex-wrap: wrap;
+    grid-template-columns: 540px;
+    grid-template-rows: 540px 400px;
 }
 
 .canvas-container{
-    width: 500px;
-    height: 500px;
     background-image: url(../img/Forme.png);
     background-repeat: no-repeat;
 }
@@ -116,10 +114,10 @@ canvas {
 .canvas-controls {
     flex-direction: column;
     background-color: #383B42;
-    width: 40%;
-    justify-content: center;
+    width: 80%;
     margin: 20px;
     border-radius: 4%;
+    justify-self: center;
 }
 
 .canvas-controls button {
@@ -190,27 +188,30 @@ canvas {
 
 @media (min-width: 800px) {
     .meme-editor-modal {
-        width: 700px;
-        flex-wrap: no-wrap;
-    }
-
-    canvas {
-        width: 300px;
-        height: 300px;
-    }
-}
-
-/* LARGE */
-
-@media (min-width: 1200px) {
-    
-    .meme-editor-modal {
-        width: 1000px;
-        height: 700px;
+        /* width: 700px; */
     }
 
     canvas {
         width: 500px;
         height: 500px;
+    }
+}
+
+/* LARGE */
+
+@media (min-width: 1010px) {
+    
+    canvas {
+        margin: 100px 20px;
+    }
+
+    .meme-editor-modal {
+        width: 1000px;
+        height: 700px;
+        flex-wrap: no-wrap;
+    }
+
+    .canvas-container{
+        height: 700px;
     }
 }
