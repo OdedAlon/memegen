@@ -7,13 +7,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" sizes="32x32" href="favicon.png">
     <link rel="stylesheet" href="css/main.css">
-    <title>Document</title>
+    <title>Memegen</title>
 </head>
 
-<body>
-    <h1>Document</h1>
+<body onload="onInit()">
+    <header class="flex align-center">
+        <img src="img/LOGO.png" class="logo" />
+    </header>
+    <main>
+        <div class="gallery-container">
+            <img src="img/1.jpg" />
+        </div>
+    </main>
+    <footer>
 
-    <script src="js/main.js"></script>
+    </footer>
+    <div class="modal-container ">
+        <modal class="meme-editor-modal">
+            <div class="canvas-container">
+                <canvas class="meme-canvas" height="500" width="500"></canvas>
+            </div>
+            <div class="canvas-controls flex align-center">
+                <input name="input-txt" type="text" placeholder="Your text" oninput="onTextChange()"></input>
+            </div>
+        </modal>
+    </div>
+    <script src="js/meme-service.js"></script>
+    <script src="js/controller.js"></script>
 </body>
 
 </html>

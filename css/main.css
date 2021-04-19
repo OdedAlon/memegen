@@ -1,4 +1,94 @@
+/*                              *** BASE ***             */
+
+* {
+    box-sizing: border-box;
+}
+  
+html {
+    font-family: LatoRegular;
+}
+  
 body {
     margin: 0;
-    background-color: lightblue;
+}
+  
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    margin: 0;
+}
+  
+a {
+    text-decoration: none;
+}
+
+/*                              *** COMPONENTS ***             */
+
+/*   HEADER */
+
+.logo {
+    width: 200px;
+    margin: 1rem;
+}
+
+/*   MAIN */
+
+.gallery-container {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);    
+    grid-template-rows: 200px;
+    gap: 10px 20px;
+}
+
+.gallery-container img {
+    max-width: 200px;
+    cursor: pointer;
+}
+
+/*   meme-editor-MODAL */
+
+canvas {
+    background-color: #fff;
+    margin: 20px;
+}
+
+.meme-editor-modal {
+    display: none;
+    position: fixed;
+    top: 5vh;
+    left: 5vw;
+    width: 90vw;
+    height: 90vh;
+    background-color: rgb(214, 212, 212);
+}
+
+.canvas-controls {
+    background-color: rgb(248, 195, 195);
+    width: 40vw;
+    justify-content: center;
+    /* text-align: center; */
+}
+
+/*                              *** HELPERS ***             */
+
+.flex {
+    display: flex;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
