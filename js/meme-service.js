@@ -13,7 +13,8 @@ var gMeme = {
         txt: 'I LOVE Tora!', 
         size: 50, 
         align: 'center', 
-        color: 'white' 
+        color: 'white',
+        pos: {x: 250, y: 50} 
     } ] };
 
 function getDefMeme() {
@@ -22,6 +23,18 @@ function getDefMeme() {
 
 function getImgs() {
     return gImgs;
+}
+
+function setImgOfDefMeme(imgId) {
+    gMeme.selectedImgId = imgId;
+}
+
+function setSizeChange(size) {
+    gMeme.lines[gMeme.selectedLineIdx].size = size;
+}
+
+function setUpDownChange(currY) {
+    gMeme.lines[gMeme.selectedLineIdx].pos.y = currY;
 }
 
 function getImgById(imgId) {
@@ -36,10 +49,41 @@ function getMemeUrl(meme) {
     return img.url;
 }
 
-function getText() {
-    return gMeme.lines[gMeme.selectedLineIdx].txt;
-}
-
 function setTextChange(txt) {
     gMeme.lines[gMeme.selectedLineIdx].txt = txt;
+}
+
+function addLine(currY) {
+    let line = {
+        txt: 'I LOVE Tora!', 
+        size: 50, 
+        align: 'center', 
+        color: 'white',
+        pos: {x: 250, y: currY}   
+    };
+    gMeme.lines.push(line);
+    gMeme.selectedLineIdx = gMeme.lines.length - 1;
+}
+
+function switchLine() {
+    if (gMeme.selectedLineIdx < gMeme.lines.length - 1) gMeme.selectedLineIdx++;
+    else gMeme.selectedLineIdx = 0;
+}
+
+function removeLine() {
+    gMeme.lines.splice(gMeme.selectedLineIdx, 1);
+    switchLine();
+}
+
+function resetCurrMeme() {
+    gMeme = { 
+        selectedImgId: 1, 
+        selectedLineIdx: 0, 
+        lines: [ { 
+            txt: 'I LOVE Tora!', 
+            size: 50, 
+            align: 'center', 
+            color: 'white',
+            pos: {x: 250, y: 50} 
+        } ] };
 }

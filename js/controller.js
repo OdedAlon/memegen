@@ -1,11 +1,11 @@
 'use strict';
 
-var gCanvas
+var gElCanvas
 var gCtx
 
 function onInit() {
-    gCanvas = document.querySelector('.meme-canvas');
-    gCtx = gCanvas.getContext('2d')
+    gElCanvas = document.querySelector('.meme-canvas');
+    gCtx = gElCanvas.getContext('2d')
     renderGallery();
 }
 
@@ -19,8 +19,7 @@ function renderGallery() {
 
 function onOpenModal(imgId) {
     document.querySelector('.meme-editor-modal').style.display = 'flex';
-    let currMeme = getDefMeme();
-    currMeme.selectedImgId = imgId;
+    setImgOfDefMeme(imgId);
     renderModal();
 }
 
@@ -31,25 +30,72 @@ function renderModal() {
     const img = new Image()
     img.src = imgUrl;
     img.onload = drawImg(img);
-    let txt = getText();
+    let txt = currMeme.lines[gMeme.selectedLineIdx].txt;
     document.querySelector('input[name="input-txt"]').value = txt;
-    drawTextLine(currMeme.lines[0]);
+    currMeme.lines.forEach(line => {
+        drawTextLine(line);
+    })
+    let currY = currMeme.lines[gMeme.selectedLineIdx].pos.y;
+    let size = currMeme.lines[gMeme.selectedLineIdx].size;
+    gCtx.beginPath()
+    gCtx.rect(20, currY - size, 460, 1.2 * size);
+    gCtx.fillStyle = 'rgb(210, 210, 210, .25)';
+    gCtx.fillRect(20, currY - size, 460, 1.2 * size)
+    gCtx.strokeStyle = 'black'
+    gCtx.stroke()   
+}
+
+function onAddLine() {
+    let currMeme = getDefMeme();
+    let lines = currMeme.lines;
+    let currY;
+    // TODO: When first line deleted - the next 'add-line' get: y = 50;
+    if (lines.length === 0) currY = 50;
+    else if (lines.length === 1) currY = gElCanvas.height - 50;
+    else currY = gElCanvas.height / 2 + lines.length * 10;
+    addLine(currY);
+    renderModal();
+}
+
+function onSwitchLine() {
+    switchLine();
+    renderModal();
+}
+
+function onRemoveLine() {
+    removeLine();
+    renderModal();
+}
+
+function onChangeFontSize(change) {
+    let currMeme = getDefMeme();
+    let size = currMeme.lines[currMeme.selectedLineIdx].size += change;
+    setSizeChange(size);
+    renderModal();
+}
+
+function onChangeUpDownRow(change) {
+    let currMeme = getDefMeme();
+    let currY = currMeme.lines[currMeme.selectedLineIdx].pos.y += change;
+    setUpDownChange(currY);
+    renderModal();
 }
 
 function onCloseModal() {
     document.querySelector('.meme-editor-modal').style.display = 'none';
+    resetCurrMeme();
 }
 
 function drawImg(img) {
-    gCtx.drawImage(img, 0, 0, gCanvas.width, gCanvas.height);     
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);     
 }
 
 function drawTextLine(line) {
     gCtx.font = `${line.size}px impact`;
     gCtx.fillStyle = `${line.color}`;
     gCtx.textAlign = `${line.align}`;
-    gCtx.fillText(`${line.txt}`, 250, 50);
-    gCtx.strokeText(`${line.txt}`, 250, 50);    
+    gCtx.fillText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);
+    gCtx.strokeText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);    
 }
 
 function onTextChange() {

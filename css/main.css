@@ -76,10 +76,44 @@ canvas {
 }
 
 .canvas-controls {
+    flex-direction: column;
     background-color: rgb(248, 195, 195);
     width: 40vw;
     justify-content: center;
     /* text-align: center; */
+}
+
+.canvas-controls button {
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    border: 0;
+    margin: 5px;
+}
+
+.btn-switch-line {
+    background-image: url(../icon/switch-row.png);
+    background-size: 50px 50px;
+}
+
+.btn-add-line {
+    background-image: url(../icon/add.png);
+    background-size: 50px 50px;
+}
+
+.btn-remove-line {
+    background-image: url(../icon/trash.png);
+    background-size: 50px 50px;
+}
+
+.btn-font-increase {
+    background-image: url(../icon/increase.png);
+    background-size: 50px 50px;
+}
+
+.btn-font-decrease {
+    background-image: url(../icon/decrease.png);
+    background-size: 50px 50px;
 }
 
 /*                              *** HELPERS ***             */
