@@ -7,9 +7,10 @@ function onInit() {
     gElCanvas = document.querySelector('.meme-canvas');
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
-    window.addEventListener('resize', function(){
-        resizeCanvas();
-    });
+    // window.addEventListener('resize', function(){
+    //     resizeCanvas();
+    // });
+    document.querySelector('.meme-editor-modal').style.display = 'none';
 }
 
 function renderGallery() {

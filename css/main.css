@@ -89,17 +89,17 @@ canvas {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 800px;
+    width: 98vw;
     height: 700px;
     background-color: #22252C;
     border: 1px solid #4b4b4b;
     flex-direction: row;
-    flex-wrap: no-wrap;
+    flex-wrap: wrap;
 }
 
 .canvas-container{
-    width: 300px;
-    height: 300px;
+    width: 500px;
+    height: 500px;
     background-image: url(../img/Forme.png);
     background-repeat: no-repeat;
 }
@@ -186,6 +186,20 @@ canvas {
 
 /*                              *** MEDIA QUERIES ***             */
 
+/* MEDIUM */
+
+@media (min-width: 800px) {
+    .meme-editor-modal {
+        width: 700px;
+        flex-wrap: no-wrap;
+    }
+
+    canvas {
+        width: 300px;
+        height: 300px;
+    }
+}
+
 /* LARGE */
 
 @media (min-width: 1200px) {
@@ -195,7 +209,7 @@ canvas {
         height: 700px;
     }
 
-    .canvas-container{
+    canvas {
         width: 500px;
         height: 500px;
     }
