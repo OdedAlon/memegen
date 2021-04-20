@@ -59,12 +59,16 @@
                 </div>
                 <div class="file-controls">
                     <button class="btn-save" onclick="onSaveMeme()">Save</button>
-                    <button class="btn-share" onclick="">Share</button>
-                    <a class="download-link" href="#" onclick="downloadCanvas(this)" download="">Download</a>
+                    <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+                        <input name="img" id="imgData" type="hidden" />
+                        <button class="btn" type="submit">Publish</button>
+                    </form>
+                    <a class="download-link" href="#" onclick="onDownloadCanvas(this)" download="">Download</a>
                 </div>
             </div>
         </modal>
     </div>
+    <script src="js/upload-service.js"></script>
     <script src="js/storage-service.js"></script>
     <script src="js/meme-service.js"></script>
     <script src="js/controller.js"></script>

@@ -114,3 +114,18 @@ function getMemesAsPNG() {
 function getMemeById(memeId) {
     return gMemes[memeId];
 }
+
+function setSavedMemeEditMode(memeId) {
+    saveToStorage('savedMemeEditMode', memeId);
+}
+
+function resetSavedMemeEditMode() {
+    saveToStorage('savedMemeEditMode', '');
+}
+
+function removeMeme(memeId) {
+    gMemes.splice(memeId, 1);
+    gMemesAsPNG.splice(memeId, 1);
+    saveToStorage('memes', gMemes);
+    saveToStorage('memesAsPNG', gMemesAsPNG);
+}

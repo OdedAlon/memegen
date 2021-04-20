@@ -3,17 +3,15 @@
 var gElCanvas;
 var gCtx;
 
-var gSavedMemeLoad;
-
 function onInit() {
     gElCanvas = document.querySelector('.meme-canvas');
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
-    if (gSavedMemeLoad) toggleModal();
-    // window.addEventListener('resize', function(){
-    //     resizeCanvas();
-    // });
-    // document.querySelector('.meme-editor-modal').style.display = 'none';
+    let memeId = loadFromStorage('savedMemeEditMode');
+    if (memeId) {
+        toggleModal();
+        renderModalForSavedMeme(memeId);
+    }
 }
 
 function renderGallery() {
@@ -26,13 +24,11 @@ function renderGallery() {
 
 function onOpenModal(imgId) {
     toggleModal();
-    // document.querySelector('.meme-editor-modal').style.display = 'grid';
     setImgOfDefMeme(imgId);
     renderModal();
 }
 
 function renderModal() {
-    // resizeCanvas();
     let currMeme = getDefMeme();
     let imgUrl = getMemeUrl(currMeme);
     // Load the IMAGE befor rest of the render.
@@ -91,7 +87,6 @@ function onChangeUpDownRow(change) {
 }
 
 function onCloseModal() {
-    // document.querySelector('.meme-editor-modal').style.display = 'none';
     resetCurrMeme();
     toggleModal();
 }
@@ -168,7 +163,7 @@ function renderMemes() {
     // }, 0)  
 }
 
-function downloadCanvas(elLink) {
+function onDownloadCanvas(elLink) {
     const data = gElCanvas.toDataURL();
     elLink.href = data;
     elLink.download = 'my-canvas.jpg';
@@ -186,9 +181,9 @@ function onOpenSavedMemesModal(memeId) {
     img.src = memesAsPNG[memeId];
     let strHtml = `
         <button onclick="onOpenMemeInEditor(${memeId})">Open in Editor</button>
-        <button onclick="">Download</button>
+        <a class="download-link" href="#" onclick="onDownloadSavedCanvas(this)" download="">Download</a>
         <button onclick="">Share</button>
-        <button onclick="">Delete</button>`
+        <button onclick="onRemoveMeme(${memeId})">Delete</button>`
     document.querySelector('.buttons-container').innerHTML = strHtml;
 }
 
@@ -197,21 +192,19 @@ function toggleSavedMemesModal() {
 }
 
 function onOpenMemeInEditor(memeId) {
-    // document.body.onload = () => {
-    //     console.log('o')
-    //     toggleModal();
-    //     renderModalForSavedMeme(memeId);
-    // }
-    gSavedMemeLoad = true;
+    setSavedMemeEditMode(memeId);
     window.location.assign('index.html');
 }
 
 function renderModalForSavedMeme(memeId) {
+    resetSavedMemeEditMode();
     let currMeme = getMemeById(memeId);
     let imgUrl = getMemeUrl(currMeme);
+    
     // Load the IMAGE befor rest of the render.
     const img = new Image()
     img.src = imgUrl;
+    console.log(imgUrl)
     img.onload = drawImg(img);
     let currY = currMeme.lines[gMeme.selectedLineIdx].pos.y;
     let size = currMeme.lines[gMeme.selectedLineIdx].size;
@@ -226,4 +219,17 @@ function renderModalForSavedMeme(memeId) {
     currMeme.lines.forEach(line => {
         drawTextLine(line);
     })
+}
+
+function onDownloadSavedCanvas(elLink) {
+    let elCanvas = document.querySelector('.saved-memes-modal-canvas');
+    const data = elCanvas.toDataURL();
+    elLink.href = data;
+    elLink.download = 'my-canvas.jpg';
+}
+
+function onRemoveMeme(memeId) {
+    removeMeme(memeId);
+    toggleSavedMemesModal();
+    renderMemes();
 }
