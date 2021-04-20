@@ -33,7 +33,15 @@ function renderGallery() {
 }
 
 function onSearchInput(){
-    
+    let val = document.querySelector('.input-search').value;
+    let imgs = getSearchedImgs(val);
+    if (!imgs.length) renderGallery();
+    else {
+        let strHtmls = imgs.map(img => {
+            return `<img src=${img.url} onclick="onOpenModal(${img.id})" />`
+        });
+        document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
+    }
 }
 
 function onOpenModal(imgId) {

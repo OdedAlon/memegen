@@ -3,8 +3,8 @@
 // var gKeywords = {'happy': 12,'funny puk': 1};
 var gImgs = [
     {id: 1, url: 'img/1.jpg', keywords: ['happy']},
-    {id: 2, url: 'img/2.jpg', keywords: ['happy']},
-    {id: 3, url: 'img/3.jpg', keywords: ['happy']},
+    {id: 2, url: 'img/2.jpg', keywords: ['happy', 'dog']},
+    {id: 3, url: 'img/3.jpg', keywords: ['happy', 'dog']},
     ]; 
 var gMeme = { 
     selectedImgId: 1, 
@@ -34,6 +34,13 @@ function getCurrMemeLines() {
 
 function getImgs() {
     return gImgs;
+}
+
+function getSearchedImgs(val) {
+    let imgs = gImgs.filter(img => {
+        return img.keywords.includes(val);
+    })
+    return imgs;
 }
 
 function setImgOfDefMeme(imgId) {
