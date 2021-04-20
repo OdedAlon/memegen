@@ -233,3 +233,7 @@ function onRemoveMeme(memeId) {
     toggleSavedMemesModal();
     renderMemes();
 }
+
+function toggleMenu() {
+    document.body.classList.toggle('menu-open');
+}

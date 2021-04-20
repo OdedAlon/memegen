@@ -13,9 +13,10 @@
 <body onload="onMemesInit()">
 
     <div class="memes-main-screen" onclick="toggleSavedMemesModal()"></div>
+    <div class="second-main-screen" onclick="toggleMenu()"></div>
 
     <header class="flex center">
-        <div class="gradient-contaoner flex center">
+        <div class="gradient-container flex">
             <div class="text-container flex">
                 <img src="img/LOGO.png" class="logo" />
             </div>
@@ -24,6 +25,7 @@
                 <a class="link-memes active" href="">Memes</a>
                 <a class="link-Abuot" href="#">About</a>
             </div>
+            <button class="btn-menu" onclick="toggleMenu()">☰</button>
         </div>
     </header>
     <main>
