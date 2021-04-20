@@ -110,3 +110,7 @@ function getMemesAsPNG() {
     if (!gMemesAsPNG) gMemesAsPNG = [];
     return gMemesAsPNG;
 }
+
+function getMemeById(memeId) {
+    return gMemes[memeId];
+}

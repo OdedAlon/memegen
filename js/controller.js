@@ -1,12 +1,15 @@
 'use strict';
 
-var gElCanvas
-var gCtx
+var gElCanvas;
+var gCtx;
+
+var gSavedMemeLoad;
 
 function onInit() {
     gElCanvas = document.querySelector('.meme-canvas');
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
+    if (gSavedMemeLoad) toggleModal();
     // window.addEventListener('resize', function(){
     //     resizeCanvas();
     // });
@@ -22,7 +25,7 @@ function renderGallery() {
 }
 
 function onOpenModal(imgId) {
-    toggleMenu();
+    toggleModal();
     // document.querySelector('.meme-editor-modal').style.display = 'grid';
     setImgOfDefMeme(imgId);
     renderModal();
@@ -48,7 +51,7 @@ function renderModal() {
     document.querySelector('input[name="input-txt"]').value = txt;
     currMeme.lines.forEach(line => {
         drawTextLine(line);
-    })  
+    })
 }
 
 function onAddLine() {
@@ -90,11 +93,11 @@ function onChangeUpDownRow(change) {
 function onCloseModal() {
     // document.querySelector('.meme-editor-modal').style.display = 'none';
     resetCurrMeme();
-    toggleMenu()
+    toggleModal();
 }
 
 function drawImg(img) {
-    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);     
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
 }
 
 function drawTextLine(line) {
@@ -102,7 +105,7 @@ function drawTextLine(line) {
     gCtx.fillStyle = `${line.color}`;
     gCtx.textAlign = `${line.align}`;
     gCtx.fillText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);
-    gCtx.strokeText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);    
+    gCtx.strokeText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);
 }
 
 function onTextChange() {
@@ -117,8 +120,8 @@ function onTextChange() {
 //     gElCanvas.height = elContainer.offsetHeight;
 // }
 
-function toggleMenu() {
-    document.body.classList.toggle('menu-open')
+function toggleModal() {
+    document.body.classList.toggle('modal-open');
 }
 
 // TODO: Add a modal that saies it saved;
@@ -135,7 +138,8 @@ function renderMemes() {
     let memesAsPNG = getMemesAsPNG();
     let strHtml = '';
     for (let i = 0; i < memesAsPNG.length; i++) {
-        strHtml += `<canvas class="saved-meme-canvas" id="${i}" height="500" width="500"></canvas>`;
+        strHtml += `<canvas class="saved-meme-canvas" id="${i}" height="500" width="500" 
+        onclick="onOpenSavedMemesModal(${i})"></canvas>`;
     }
     document.querySelector('.memes-container').innerHTML = strHtml;
 
@@ -143,9 +147,9 @@ function renderMemes() {
     for (let i = 0; i < memesAsPNG.length; i++) {
         let img = new Image();
         img.onload = () => {
-          let elCanvas = document.getElementById(`${i}`);
-          let ctx = elCanvas.getContext('2d');
-          ctx.drawImage(img, 0, 0);
+            let elCanvas = document.getElementById(`${i}`);
+            let ctx = elCanvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
         }
         img.src = memesAsPNG[i];
     }
@@ -161,23 +165,65 @@ function renderMemes() {
     //     }
     //     img.src = meme;
     //     // acc++;
-    // }, 0)
-    // let img = new Image();
-    // img.onload = () => {
-    //   let elCanvas = document.querySelector('.saved-meme-canvas');
-    //   let ctx = elCanvas.getContext('2d');
-    //   ctx.drawImage(img, 0, 0);
-    // }
-    // img.src = memesAsPNG[0];
-
-    // let strHtmls = memes.map(meme => {
-    //     return `<img src=${img.url} onclick="onOpenModal(${img.id})" />`
-    // });
-    // document.querySelector('.gallery-container').innerHTML = strHtmls.join('');   
+    // }, 0)  
 }
 
 function downloadCanvas(elLink) {
     const data = gElCanvas.toDataURL();
     elLink.href = data;
     elLink.download = 'my-canvas.jpg';
+}
+
+function onOpenSavedMemesModal(memeId) {
+    toggleSavedMemesModal();
+    let memesAsPNG = getMemesAsPNG();
+    let img = new Image();
+    img.onload = () => {
+        let elCanvas = document.querySelector('.saved-memes-modal-canvas');
+        let ctx = elCanvas.getContext('2d');
+        ctx.drawImage(img, 0, 0);
+    }
+    img.src = memesAsPNG[memeId];
+    let strHtml = `
+        <button onclick="onOpenMemeInEditor(${memeId})">Open in Editor</button>
+        <button onclick="">Download</button>
+        <button onclick="">Share</button>
+        <button onclick="">Delete</button>`
+    document.querySelector('.buttons-container').innerHTML = strHtml;
+}
+
+function toggleSavedMemesModal() {
+    document.body.classList.toggle('saved-memes-modal-open');
+}
+
+function onOpenMemeInEditor(memeId) {
+    // document.body.onload = () => {
+    //     console.log('o')
+    //     toggleModal();
+    //     renderModalForSavedMeme(memeId);
+    // }
+    gSavedMemeLoad = true;
+    window.location.assign('index.html');
+}
+
+function renderModalForSavedMeme(memeId) {
+    let currMeme = getMemeById(memeId);
+    let imgUrl = getMemeUrl(currMeme);
+    // Load the IMAGE befor rest of the render.
+    const img = new Image()
+    img.src = imgUrl;
+    img.onload = drawImg(img);
+    let currY = currMeme.lines[gMeme.selectedLineIdx].pos.y;
+    let size = currMeme.lines[gMeme.selectedLineIdx].size;
+    gCtx.beginPath();
+    gCtx.rect(20, currY - size, 460, 1.2 * size);
+    gCtx.fillStyle = 'rgb(210, 210, 210, .7)';
+    gCtx.fillRect(20, currY - size, 460, 1.2 * size);
+    gCtx.strokeStyle = 'black';
+    gCtx.stroke();
+    let txt = currMeme.lines[gMeme.selectedLineIdx].txt;
+    document.querySelector('input[name="input-txt"]').value = txt;
+    currMeme.lines.forEach(line => {
+        drawTextLine(line);
+    })
 }
