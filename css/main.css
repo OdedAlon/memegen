@@ -69,17 +69,34 @@ button {
     width: 98vw;
 }
 
+.search-container {
+    background-color: #383B42;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+.input-search {
+    background-color: #22252C;
+    border-radius: 2rem;
+    font-size: 20px;
+    padding: 10px;
+    margin: 10px;
+    color: rgb(180, 166, 166);
+}
+
 .gallery-container {
     background-color: #383B42;
     margin: 20px;
     grid-template-columns: repeat(auto-fill, 200px);    
     grid-template-rows: 200px;
     gap: 20px 20px;
+    border-radius: 10px;
 }
 
 .gallery-container img {
     max-width: 200px;
     cursor: pointer;
+    border-radius: 10px;
 }
 
 /*   FOOTER */
@@ -151,6 +168,14 @@ body.modal-open .meme-editor-modal {
     font-size: 15px;
     border: 0;
     margin: 5px;
+    border-radius: 10px;
+    box-shadow: -2px 4px 0px rgb(120, 120, 120, .95);
+}
+
+.text-controls {
+    background-color: #0F9BB4;
+    border-radius: 10px;
+    margin: 10px;
 }
 
 .lines-controls button, .text-controls button {
@@ -167,6 +192,8 @@ body.modal-open .meme-editor-modal {
     margin: 5px;
     font-size: 20px;
     width: 200px;
+    border-radius: 15px;
+    box-shadow: inset 3px -2px 3px rgb(150, 146, 146, .95);
 }
 
 .btn-switch-line {
@@ -454,7 +481,7 @@ body.saved-memes-modal-open .memes-main-screen {
 
 /*    MAIN-SCREEN and MENU for SMALL */
 
-@media (max-width: 900px) {
+@media (max-width: 620px) {
 
     .second-main-screen {
         position: fixed;

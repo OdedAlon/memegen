@@ -17,7 +17,7 @@ function onInit() {
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
     gMemeId = loadFromStorage('savedMemeEditMode');
-    if (gMemeId) {
+    if (gMemeId || gMemeId === 0) {
         toggleModal();
         renderModal(gMemeId);
     }
@@ -32,6 +32,10 @@ function renderGallery() {
     document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
 }
 
+function onSearchInput(){
+    
+}
+
 function onOpenModal(imgId) {
     toggleModal();
     setImgOfDefMeme(imgId);
@@ -39,7 +43,7 @@ function onOpenModal(imgId) {
 }
 
 function renderModal() {
-    if (!gMemeId) gCurrMeme = getDefMeme();
+    if (!gMemeId && gMemeId !== 0) gCurrMeme = getDefMeme();
     else {
         gCurrMeme = getMemeById(gMemeId);
         setCurrMeme(gCurrMeme);
@@ -47,7 +51,9 @@ function renderModal() {
     let imgUrl = getMemeUrl(gCurrMeme);
     // Load the IMAGE befor rest of the render.
     const img = new Image()
+    console.log(imgUrl)
     img.src = imgUrl;
+    console.log(img)
     img.onload = drawImg(img);
     let currY = gCurrMeme.lines[gMeme.selectedLineIdx].pos.y;
     let size = gCurrMeme.lines[gMeme.selectedLineIdx].size;
@@ -293,7 +299,7 @@ function getEvPos(ev) {
             y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
         }
     }
-    return pos
+    return pos;
 }
 
 function getlineClicked(clickedPos) {
