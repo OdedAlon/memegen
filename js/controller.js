@@ -2,16 +2,26 @@
 
 var gElCanvas;
 var gCtx;
+var gDraggedLine;
+var gStartPos;
+var gLineMarkerColor = {fill: 'rgb(210, 210, 210, .7)', stroke: 'black'};
+
+// TODO: Check if necessery as a global - gCurrMeme & gMemeId.
+var gCurrMeme;
+var gMemeId;
+
+const gTouchEvs = ['touchstart', 'touchmove', 'touchend']
 
 function onInit() {
     gElCanvas = document.querySelector('.meme-canvas');
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
-    let memeId = loadFromStorage('savedMemeEditMode');
-    if (memeId) {
+    gMemeId = loadFromStorage('savedMemeEditMode');
+    if (gMemeId) {
         toggleModal();
-        renderModalForSavedMeme(memeId);
+        renderModal(gMemeId);
     }
+    addListeners();
 }
 
 function renderGallery() {
@@ -29,30 +39,34 @@ function onOpenModal(imgId) {
 }
 
 function renderModal() {
-    let currMeme = getDefMeme();
-    let imgUrl = getMemeUrl(currMeme);
+    if (!gMemeId) gCurrMeme = getDefMeme();
+    else {
+        gCurrMeme = getMemeById(gMemeId);
+        setCurrMeme(gCurrMeme);
+    }
+    let imgUrl = getMemeUrl(gCurrMeme);
     // Load the IMAGE befor rest of the render.
     const img = new Image()
     img.src = imgUrl;
     img.onload = drawImg(img);
-    let currY = currMeme.lines[gMeme.selectedLineIdx].pos.y;
-    let size = currMeme.lines[gMeme.selectedLineIdx].size;
+    let currY = gCurrMeme.lines[gMeme.selectedLineIdx].pos.y;
+    let size = gCurrMeme.lines[gMeme.selectedLineIdx].size;
     gCtx.beginPath();
     gCtx.rect(20, currY - size, 460, 1.2 * size);
-    gCtx.fillStyle = 'rgb(210, 210, 210, .7)';
+    gCtx.fillStyle = gLineMarkerColor.fill;
     gCtx.fillRect(20, currY - size, 460, 1.2 * size);
-    gCtx.strokeStyle = 'black';
+    gCtx.strokeStyle = gLineMarkerColor.stroke;
     gCtx.stroke();
-    let txt = currMeme.lines[gMeme.selectedLineIdx].txt;
+    gCtx.strokeStyle = 'black';
+    let txt = gCurrMeme.lines[gMeme.selectedLineIdx].txt;
     document.querySelector('input[name="input-txt"]').value = txt;
-    currMeme.lines.forEach(line => {
+    gCurrMeme.lines.forEach(line => {
         drawTextLine(line);
     })
 }
 
 function onAddLine() {
-    let currMeme = getDefMeme();
-    let lines = currMeme.lines;
+    let lines = gCurrMeme.lines;
     let currY;
     // TODO: When first line deleted - the next 'add-line' get: y = 50;
     if (lines.length === 0) currY = 50;
@@ -73,21 +87,21 @@ function onRemoveLine() {
 }
 
 function onChangeFontSize(change) {
-    let currMeme = getDefMeme();
-    let size = currMeme.lines[currMeme.selectedLineIdx].size += change;
+    let size = gCurrMeme.lines[gCurrMeme.selectedLineIdx].size += change;
     setSizeChange(size);
     renderModal();
 }
 
 function onChangeUpDownRow(change) {
-    let currMeme = getDefMeme();
-    let currY = currMeme.lines[currMeme.selectedLineIdx].pos.y += change;
+    let currY = gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.y += change;
     setUpDownChange(currY);
     renderModal();
 }
 
 function onCloseModal() {
-    resetCurrMeme();
+    resetgCurrMeme();
+    // TODO: Maybe change the name to reset-gMemeId
+    resetSavedMemeEditMode()
     toggleModal();
 }
 
@@ -121,7 +135,11 @@ function toggleModal() {
 
 // TODO: Add a modal that saies it saved;
 function onSaveMeme() {
+    gLineMarkerColor = {fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0'};
+    renderModal();
     saveMeme(gElCanvas.toDataURL());
+    gLineMarkerColor = {fill: 'rgb(210, 210, 210, .7)', stroke: 'black'};
+    renderModal();
 }
 
 function onMemesInit() {
@@ -164,12 +182,16 @@ function renderMemes() {
 }
 
 function onDownloadCanvas(elLink) {
+    gLineMarkerColor = {fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0'};
+    renderModal();
     const data = gElCanvas.toDataURL();
     elLink.href = data;
     elLink.download = 'my-canvas.jpg';
+    gLineMarkerColor = {fill: 'rgb(210, 210, 210, .7)', stroke: 'black'};
+    renderModal();
 }
 
-function onOpenSavedMemesModal(memeId) {
+function onOpenSavedMemesModal(gMemeId) {
     toggleSavedMemesModal();
     let memesAsPNG = getMemesAsPNG();
     let img = new Image();
@@ -178,12 +200,12 @@ function onOpenSavedMemesModal(memeId) {
         let ctx = elCanvas.getContext('2d');
         ctx.drawImage(img, 0, 0);
     }
-    img.src = memesAsPNG[memeId];
+    img.src = memesAsPNG[gMemeId];
     let strHtml = `
-        <button onclick="onOpenMemeInEditor(${memeId})">Open in Editor</button>
+        <button onclick="onOpenMemeInEditor(${gMemeId})">Open in Editor</button>
         <a class="download-link" href="#" onclick="onDownloadSavedCanvas(this)" download="">Download</a>
         <button onclick="">Share</button>
-        <button onclick="onRemoveMeme(${memeId})">Delete</button>`
+        <button onclick="onRemoveMeme(${gMemeId})">Delete</button>`
     document.querySelector('.buttons-container').innerHTML = strHtml;
 }
 
@@ -191,35 +213,35 @@ function toggleSavedMemesModal() {
     document.body.classList.toggle('saved-memes-modal-open');
 }
 
-function onOpenMemeInEditor(memeId) {
-    setSavedMemeEditMode(memeId);
+function onOpenMemeInEditor(gMemeId) {
+    setSavedMemeEditMode(gMemeId);
     window.location.assign('index.html');
 }
 
-function renderModalForSavedMeme(memeId) {
-    resetSavedMemeEditMode();
-    let currMeme = getMemeById(memeId);
-    let imgUrl = getMemeUrl(currMeme);
+// function renderModalForSavedMeme(gMemeId) {
+//     resetSavedMemeEditMode();
+//     let gCurrMeme = getMemeById(gMemeId);
+//     let imgUrl = getMemeUrl(gCurrMeme);
     
-    // Load the IMAGE befor rest of the render.
-    const img = new Image()
-    img.src = imgUrl;
-    console.log(imgUrl)
-    img.onload = drawImg(img);
-    let currY = currMeme.lines[gMeme.selectedLineIdx].pos.y;
-    let size = currMeme.lines[gMeme.selectedLineIdx].size;
-    gCtx.beginPath();
-    gCtx.rect(20, currY - size, 460, 1.2 * size);
-    gCtx.fillStyle = 'rgb(210, 210, 210, .7)';
-    gCtx.fillRect(20, currY - size, 460, 1.2 * size);
-    gCtx.strokeStyle = 'black';
-    gCtx.stroke();
-    let txt = currMeme.lines[gMeme.selectedLineIdx].txt;
-    document.querySelector('input[name="input-txt"]').value = txt;
-    currMeme.lines.forEach(line => {
-        drawTextLine(line);
-    })
-}
+//     // Load the IMAGE befor rest of the render.
+//     const img = new Image()
+//     img.src = imgUrl;
+//     console.log(imgUrl)
+//     img.onload = drawImg(img);
+//     let currY = currMeme.lines[gMeme.selectedLineIdx].pos.y;
+//     let size = currMeme.lines[gMeme.selectedLineIdx].size;
+//     gCtx.beginPath();
+//     gCtx.rect(20, currY - size, 460, 1.2 * size);
+//     gCtx.fillStyle = 'rgb(210, 210, 210, .7)';
+//     gCtx.fillRect(20, currY - size, 460, 1.2 * size);
+//     gCtx.strokeStyle = 'black';
+//     gCtx.stroke();
+//     let txt = currMeme.lines[gMeme.selectedLineIdx].txt;
+//     document.querySelector('input[name="input-txt"]').value = txt;
+//     currMeme.lines.forEach(line => {
+//         drawTextLine(line);
+//     })
+// }
 
 function onDownloadSavedCanvas(elLink) {
     let elCanvas = document.querySelector('.saved-memes-modal-canvas');
@@ -228,12 +250,84 @@ function onDownloadSavedCanvas(elLink) {
     elLink.download = 'my-canvas.jpg';
 }
 
-function onRemoveMeme(memeId) {
-    removeMeme(memeId);
+function onRemoveMeme(gMemeId) {
+    removeMeme(gMemeId);
     toggleSavedMemesModal();
     renderMemes();
 }
 
 function toggleMenu() {
     document.body.classList.toggle('menu-open');
+}
+
+//                                    **** touch-events ****
+
+
+function addListeners() {
+    addMouseListeners();
+    addTouchListeners();
+}
+
+function addMouseListeners() {
+    gElCanvas.addEventListener('mousemove', onMove);
+    gElCanvas.addEventListener('mousedown', onDown);
+    gElCanvas.addEventListener('mouseup', onUp);
+}
+
+function addTouchListeners() {
+    gElCanvas.addEventListener('touchmove', onMove);
+    gElCanvas.addEventListener('touchstart', onDown);
+    gElCanvas.addEventListener('touchend', onUp);
+}
+
+function getEvPos(ev) {
+    const pos = {
+        x: ev.offsetX,
+        y: ev.offsetY
+    }
+    if (gTouchEvs.includes(ev.type)) {
+        ev.preventDefault()
+        ev = ev.changedTouches[0]
+        pos = {
+            x: ev.pageX - ev.target.offsetLeft - ev.target.clientLeft,
+            y: ev.pageY - ev.target.offsetTop - ev.target.clientTop
+        }
+    }
+    return pos
+}
+
+function getlineClicked(clickedPos) {
+    let lines = getCurrMemeLines();
+    let currLine = lines.find(line => {
+        let minY = line.pos.y - line.size;
+        let maxY = minY + line.size * 1.2;
+        return clickedPos.y >= minY && clickedPos.y <= maxY 
+    });
+    return currLine;
+}
+
+function onDown(ev) {
+    const pos = getEvPos(ev);    
+    gDraggedLine = getlineClicked(pos) 
+    if (!gDraggedLine) return;
+    gDraggedLine.isDragging = true;
+    gStartPos = pos;
+    document.body.style.cursor = 'grabbing';
+}
+
+function onMove(ev) {
+    if (gDraggedLine.isDragging) {
+        const pos = getEvPos(ev);
+        const dx = pos.x - gStartPos.x;
+        const dy = pos.y - gStartPos.y;
+        gDraggedLine.pos.x += dx;
+        gDraggedLine.pos.y += dy;
+        gStartPos = pos;
+        renderModal();
+    }
+}
+
+function onUp() {
+    gDraggedLine.isDragging = false;
+    document.body.style.cursor = 'grab';
 }

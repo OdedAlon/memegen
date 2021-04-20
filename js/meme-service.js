@@ -14,13 +14,22 @@ var gMeme = {
         size: 50, 
         align: 'center', 
         color: 'white',
-        pos: {x: 250, y: 50} 
+        pos: {x: 250, y: 50},
+        isDragging: false
     } ] };
 var gMemes = loadFromStorage('memes');
 var gMemesAsPNG  = loadFromStorage('memesAsPNG');
 
 function getDefMeme() {
     return gMeme;
+}
+
+function setCurrMeme(CurrMeme) {
+    gMeme = CurrMeme;
+}
+
+function getCurrMemeLines() {
+    return  gMeme.lines;
 }
 
 function getImgs() {
@@ -61,7 +70,8 @@ function addLine(currY) {
         size: 50, 
         align: 'center', 
         color: 'white',
-        pos: {x: 250, y: currY}   
+        pos: {x: 250, y: currY},
+        isDragging: false   
     };
     gMeme.lines.push(line);
     gMeme.selectedLineIdx = gMeme.lines.length - 1;
@@ -77,7 +87,7 @@ function removeLine() {
     switchLine();
 }
 
-function resetCurrMeme() {
+function resetgCurrMeme() {
     gMeme = { 
         selectedImgId: 1, 
         selectedLineIdx: 0, 

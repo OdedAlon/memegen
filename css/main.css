@@ -99,6 +99,7 @@ canvas {
     width: 250px;
     height: 250px;
     margin: 20px 35px 10px;
+    cursor: grab;
 }
 
 .meme-editor-modal {
@@ -147,11 +148,14 @@ body.modal-open .meme-editor-modal {
 }
 
 .canvas-controls button {
-    width: 30px;
-    height: 30px;
     font-size: 15px;
     border: 0;
     margin: 5px;
+}
+
+.lines-controls button, .text-controls button {
+    width: 30px;
+    height: 30px;
     background-size: 30px 30px;
 }
 
@@ -160,21 +164,24 @@ body.modal-open .meme-editor-modal {
 }
 
 .input-txt {
-    margin: 10px;
-    font-size: 30px;
+    margin: 5px;
+    font-size: 20px;
     width: 200px;
 }
 
 .btn-switch-line {
     background-image: url(../icon/switch-row.png);
+    background-color: lightblue;
 }
 
 .btn-add-line {
     background-image: url(../icon/add.png);
+    background-color: lightgreen;
 }
 
 .btn-remove-line {
     background-image: url(../icon/trash.png);
+    background-color: red;
 }
 
 .btn-font-increase {
@@ -183,6 +190,10 @@ body.modal-open .meme-editor-modal {
 
 .btn-font-decrease {
     background-image: url(../icon/decrease.png);
+}
+
+.btn-save, .btn-share {
+    width: 100px;
 }
 
 .file-controls a {
@@ -344,13 +355,14 @@ body.saved-memes-modal-open .memes-main-screen {
         font-size: 25px;
     }
     
-    /* .nav-bar a:hovar {
+    .nav-bar a:hovar {
         padding: 5px 20px;
-        background-color: rgba(255, 255, 255, 0.534);
+        background-color: #fff;
         border-radius: 2rem;
         color: #26B187;
-    } */
+    }
     
+    /* TODO: Check why don't work */
     .nav-bar a.active {
         padding: 5px 20px;
         background-color: #fff;
@@ -401,9 +413,12 @@ body.saved-memes-modal-open .memes-main-screen {
     }
 
     .canvas-controls button {
+        font-size: 30px;
+    }
+    
+    .lines-controls button, .text-controls button {
         width: 50px;
         height: 50px;
-        font-size: 30px;
         background-size: 50px 50px;
     }
 

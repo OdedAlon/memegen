@@ -2,7 +2,11 @@
 // on submit call to this function
 function uploadImg(elForm, ev) {
     ev.preventDefault();
+    gLineMarkerColor = {fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0'};
+    renderModal();
     document.getElementById('imgData').value = gElCanvas.toDataURL("image/jpeg");
+    gLineMarkerColor = {fill: 'rgb(210, 210, 210, .7)', stroke: 'black'};
+    renderModal();
 
     // A function to be called if request succeeds
     function onSuccess(uploadedImgUrl) {
