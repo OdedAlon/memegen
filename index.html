@@ -23,19 +23,21 @@
             <div class="nav-bar flex align-center">
                 <a class="link-gallery active" href="#">Gallery</a>
                 <a class="link-memes" href="memes.html">Memes</a>
-                <a class="link-Abuot" href="#">About</a>
             </div>
             <button class="btn-menu" onclick="toggleMenu()">☰</button>
         </div>
     </header>
     <main>
-        <div class="main-container">
+        <div class="main-container flex">
             <div class="search-container">
                 <input type="text" class="input-search" placeholder="Search" oninput="onSearchInput()"/>
             </div>
             <div class="gallery-container grid center">
                 <img src="img/1.jpg" />
             </div>
+            <input id="file-input" type="file" class="file-input btn" name="image" onchange="onImgInput(event)" hidden/>
+            <div class="share-container"></div>
+            <label for="file-input"><div class="img-upload"></div></label>
         </div>
     </main>
     <footer>

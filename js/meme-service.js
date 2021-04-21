@@ -154,3 +154,7 @@ function removeMeme(memeId) {
     saveToStorage('memes', gMemes);
     saveToStorage('memesAsPNG', gMemesAsPNG);
 }
+
+function setgMemeImgIdForUploadImg() {
+    gMeme.selectedImgId = -1;
+}

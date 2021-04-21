@@ -4,7 +4,8 @@ var gElCanvas;
 var gCtx;
 var gDraggedLine;
 var gStartPos;
-var gLineMarkerColor = {fill: 'rgb(210, 210, 210, .7)', stroke: 'black'};
+var gLineMarkerColor = { fill: 'rgb(210, 210, 210, .7)', stroke: 'black' };
+var gImg;
 
 // TODO: Check if necessery as a global - gCurrMeme & gMemeId.
 var gCurrMeme;
@@ -32,7 +33,7 @@ function renderGallery() {
     document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
 }
 
-function onSearchInput(){
+function onSearchInput() {
     let val = document.querySelector('.input-search').value;
     let imgs = getSearchedImgs(val);
     if (!imgs.length) renderGallery();
@@ -51,12 +52,18 @@ function onOpenModal(imgId) {
 }
 
 function renderModal() {
-    if (!gMemeId && gMemeId !== 0) gCurrMeme = getDefMeme();
-    else {
-        gCurrMeme = getMemeById(gMemeId);
-        setCurrMeme(gCurrMeme);
+    if (gMemeId === -1) {
+        gCurrMeme = getDefMeme();
+        setgMemeImgIdForUploadImg();
+        var imgUrl = gImg.src;
+    } else {
+        if (!gMemeId && gMemeId !== 0) gCurrMeme = getDefMeme();
+        else {
+            gCurrMeme = getMemeById(gMemeId);
+            setCurrMeme(gCurrMeme);
+        }
+        var imgUrl = getMemeUrl(gCurrMeme);
     }
-    let imgUrl = getMemeUrl(gCurrMeme);
     // Load the IMAGE befor rest of the render.
     const img = new Image()
     img.src = imgUrl;
@@ -130,6 +137,8 @@ function onCloseModal() {
     resetgCurrMeme();
     // TODO: Maybe change the name to reset-gMemeId
     resetSavedMemeEditMode()
+    gImg = '';
+    gMemeId = '';
     toggleModal();
 }
 
@@ -152,11 +161,9 @@ function onTextChange() {
     renderModal();
 }
 
-// function resizeCanvas() {
-//     var elContainer = document.querySelector('.canvas-container');
-//     gElCanvas.width = elContainer.offsetWidth;
-//     gElCanvas.height = elContainer.offsetHeight;
-// }
+function onUploadImg() {
+
+}
 
 function toggleModal() {
     document.body.classList.toggle('modal-open');
@@ -164,10 +171,10 @@ function toggleModal() {
 
 // TODO: Add a modal that saies it saved;
 function onSaveMeme() {
-    gLineMarkerColor = {fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0'};
+    gLineMarkerColor = { fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0' };
     renderModal();
     saveMeme(gElCanvas.toDataURL());
-    gLineMarkerColor = {fill: 'rgb(210, 210, 210, .7)', stroke: 'black'};
+    gLineMarkerColor = { fill: 'rgb(210, 210, 210, .7)', stroke: 'black' };
     renderModal();
 }
 
@@ -195,28 +202,15 @@ function renderMemes() {
         }
         img.src = memesAsPNG[i];
     }
-
-    // memesAsPNG.reduce((acc, meme) => {
-    //     acc++;
-    //     console.log(acc)
-    //     let img = new Image();
-    //     img.onload = () => {
-    //       let elCanvas = document.getElementById(`${acc}`);
-    //       let ctx = elCanvas.getContext('2d');
-    //       ctx.drawImage(img, 0, 0);
-    //     }
-    //     img.src = meme;
-    //     // acc++;
-    // }, 0)  
 }
 
 function onDownloadCanvas(elLink) {
-    gLineMarkerColor = {fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0'};
+    gLineMarkerColor = { fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0' };
     renderModal();
     const data = gElCanvas.toDataURL();
     elLink.href = data;
     elLink.download = 'my-canvas.jpg';
-    gLineMarkerColor = {fill: 'rgb(210, 210, 210, .7)', stroke: 'black'};
+    gLineMarkerColor = { fill: 'rgb(210, 210, 210, .7)', stroke: 'black' };
     renderModal();
 }
 
@@ -231,13 +225,13 @@ function onOpenSavedMemesModal(gMemeId) {
     }
     img.src = memesAsPNG[gMemeId];
     let strHtml = `
-        <button onclick="onOpenMemeInEditor(${gMemeId})">Open in Editor</button>
+        <button class="btn-edit" onclick="onOpenMemeInEditor(${gMemeId})"></button>
         <a class="download-link" href="#" onclick="onDownloadSavedCanvas(this)" download=""></a>
         <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
             <input name="img" id="imgData" type="hidden" />
             <button class="btn btn-share" type="submit"></button>
         </form>
-        <button onclick="onRemoveMeme(${gMemeId})">Delete</button>`
+        <button class="btn-remove" onclick="onRemoveMeme(${gMemeId})"></button>`
     document.querySelector('.buttons-container').innerHTML = strHtml;
 }
 
@@ -249,31 +243,6 @@ function onOpenMemeInEditor(gMemeId) {
     setSavedMemeEditMode(gMemeId);
     window.location.assign('index.html');
 }
-
-// function renderModalForSavedMeme(gMemeId) {
-//     resetSavedMemeEditMode();
-//     let gCurrMeme = getMemeById(gMemeId);
-//     let imgUrl = getMemeUrl(gCurrMeme);
-    
-//     // Load the IMAGE befor rest of the render.
-//     const img = new Image()
-//     img.src = imgUrl;
-//     console.log(imgUrl)
-//     img.onload = drawImg(img);
-//     let currY = currMeme.lines[gMeme.selectedLineIdx].pos.y;
-//     let size = currMeme.lines[gMeme.selectedLineIdx].size;
-//     gCtx.beginPath();
-//     gCtx.rect(20, currY - size, 460, 1.2 * size);
-//     gCtx.fillStyle = 'rgb(210, 210, 210, .7)';
-//     gCtx.fillRect(20, currY - size, 460, 1.2 * size);
-//     gCtx.strokeStyle = 'black';
-//     gCtx.stroke();
-//     let txt = currMeme.lines[gMeme.selectedLineIdx].txt;
-//     document.querySelector('input[name="input-txt"]').value = txt;
-//     currMeme.lines.forEach(line => {
-//         drawTextLine(line);
-//     })
-// }
 
 function onDownloadSavedCanvas(elLink) {
     let elCanvas = document.querySelector('.saved-memes-modal-canvas');
@@ -333,14 +302,14 @@ function getlineClicked(clickedPos) {
     let currLine = lines.find(line => {
         let minY = line.pos.y - line.size;
         let maxY = minY + line.size * 1.2;
-        return clickedPos.y >= minY && clickedPos.y <= maxY 
+        return clickedPos.y >= minY && clickedPos.y <= maxY
     });
     return currLine;
 }
 
 function onDown(ev) {
-    const pos = getEvPos(ev);    
-    gDraggedLine = getlineClicked(pos) 
+    const pos = getEvPos(ev);
+    gDraggedLine = getlineClicked(pos)
     if (!gDraggedLine) return;
     gDraggedLine.isDragging = true;
     gStartPos = pos;
@@ -362,4 +331,31 @@ function onMove(ev) {
 function onUp() {
     gDraggedLine.isDragging = false;
     document.body.style.cursor = 'grab';
+}
+
+//                                    **** upload-image ****
+
+// The next 2 functions handle IMAGE UPLOADING to img tag from file system: 
+function onImgInput(ev) {
+    toggleModal();
+    gMemeId = -1;
+    loadImageFromInput(ev, renderImg);
+}
+
+function loadImageFromInput(ev, onImageReady) {
+    document.querySelector('.share-container').innerHTML = '';
+    var reader = new FileReader();
+
+    reader.onload = function (event) {
+        var img = new Image();
+        img.onload = onImageReady.bind(null, img);
+        img.src = event.target.result;
+        gImg = img
+    }
+    reader.readAsDataURL(ev.target.files[0]);
+}
+
+function renderImg(img) {
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
+    renderModal();
 }
