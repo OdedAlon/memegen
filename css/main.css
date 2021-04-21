@@ -1,3 +1,8 @@
+@font-face {
+    font-family: HindVadodara;
+    src: url(../font/HindVadodara-Regular.ttf);
+}
+
 /*                              *** BASE ***             */
 
 * {
@@ -5,7 +10,7 @@
 }
   
 html {
-    font-family: LatoRegular;
+    font-family: HindVadodara;
 }
   
 body {
@@ -92,14 +97,14 @@ button {
 .gallery-container {
     background-color: #383B42;
     margin: 20px;
-    grid-template-columns: repeat(auto-fill, 200px);    
-    grid-template-rows: 200px;
+    grid-template-columns: repeat(auto-fill, 120px);    
+    grid-template-rows: 120px;
     gap: 20px 20px;
     border-radius: 10px;
 }
 
 .gallery-container img {
-    max-width: 200px;
+    max-width: 120px;
     cursor: pointer;
     border-radius: 10px;
 }
@@ -122,11 +127,17 @@ button {
 /*   FOOTER */
 
 footer {
+    color: white;
     background-color: #000;
     width: 100vw;
     height: 50px;
     bottom: 0;
     position: fixed;
+    justify-content: center;
+}
+
+.copyright {
+    position: bottom;
 }
 
 /*   meme-editor-MODAL */
@@ -509,6 +520,15 @@ body.saved-memes-modal-open .memes-main-screen {
 
     .btn-menu {
         display: none;
+    }
+
+    .gallery-container {
+        grid-template-columns: repeat(auto-fill, 200px);    
+        grid-template-rows: 200px;
+    }
+    
+    .gallery-container img {
+        max-width: 200px;
     }
 
     .meme-editor-modal {
