@@ -56,19 +56,25 @@
                     <button class="btn-add-line" onclick="onAddLine()"></button>
                     <button class="btn-remove-line" onclick="onRemoveLine()"></button>
                 </div>
-                <div class="text-controls flex">
+                <div class="text-controls grid">
                     <button class="btn-font-increase" onclick="onChangeFontSize(1)"></button>
                     <button class="btn-font-decrease" onclick="onChangeFontSize(-1)"></button>
-                    <button class="btn-row-up" onclick="onChangeUpDownRow(-1)">↑</button>
-                    <button class="btn-row-down" onclick="onChangeUpDownRow(1)">↓</button>
+                    <input type="color" id="fill-color" class="fill-color" value="#ffffff" oninput="onChangefillColor(this.value)"/>
+                    <input type="color" id="stroke-color" class="stroke-color"  value="#000000" oninput="onChangeStrokeColor(this.value)"/>
+                    <label for="fill-color"><img src="../icon/fill.png" class="img-fill-color"></label>
+                    <label for="stroke-color"><img src="../icon/stroke.png" class="img-stroke-color"></label>
+                    <button class="btn-row-left" onclick="onMoveSidesRow(-5)"></button>
+                    <button class="btn-row-up" onclick="onMoveUpDownRow(-5)"></button>
+                    <button class="btn-row-down" onclick="onMoveUpDownRow(5)"></button>
+                    <button class="btn-row-right" onclick="onMoveSidesRow(5)"></button>
                 </div>
-                <div class="file-controls">
-                    <button class="btn-save" onclick="onSaveMeme()">Save</button>
+                <div class="file-controls flex">
+                    <button class="btn-save" onclick="onSaveMeme()"></button>
                     <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
                         <input name="img" id="imgData" type="hidden" />
-                        <button class="btn btn-share" type="submit">Share</button>
+                        <button class="btn btn-share" type="submit"></button>
                     </form>
-                    <a class="download-link" href="#" onclick="onDownloadCanvas(this)" download="">Download</a>
+                    <a class="download-link" href="#" onclick="onDownloadCanvas(this)" download=""></a>
                 </div>
             </div>
         </modal>

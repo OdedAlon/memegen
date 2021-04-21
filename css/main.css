@@ -168,28 +168,30 @@ body.modal-open .meme-editor-modal {
     font-size: 15px;
     border: 0;
     margin: 5px;
-    border-radius: 10px;
-    box-shadow: -2px 4px 0px rgb(120, 120, 120, .95);
+    background-color: rgba(255, 255, 255, 0);
+    /* border-radius: 10px; */
+    /* box-shado    w: -2px 4px 0px rgb(120, 120, 120, .95); */
 }
 
 .text-controls {
-    background-color: #0F9BB4;
+    background-color: #14c9e9;
     border-radius: 10px;
+    padding: 5px 10px 15px;
     margin: 10px;
+    grid-template-columns: 50px 50px 50px 50px;    
+    grid-template-rows: 20px 30px 50px;
+    gap: 10px 20px;
 }
 
 .lines-controls button, .text-controls button {
     width: 30px;
     height: 30px;
-    background-size: 30px 30px;
-}
-
-.canvas-controls button:hover {
-    background-color: rgb(250, 200, 200);
+    
 }
 
 .input-txt {
     margin: 5px;
+    padding: 0 15px 0;
     font-size: 20px;
     width: 200px;
     border-radius: 15px;
@@ -203,30 +205,98 @@ body.modal-open .meme-editor-modal {
 
 .btn-add-line {
     background-image: url(../icon/add.png);
-    background-color: lightgreen;
+    
 }
 
 .btn-remove-line {
     background-image: url(../icon/trash.png);
-    background-color: red;
 }
 
 .btn-font-increase {
     background-image: url(../icon/increase.png);
+    grid-column: 1;
+    grid-row: 1;
 }
 
 .btn-font-decrease {
     background-image: url(../icon/decrease.png);
+    grid-column: 2;
+    grid-row: 1;
 }
 
-.btn-save, .btn-share {
-    width: 100px;
+.img-fill-color {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    grid-column: 3;
+    grid-row: 1;
 }
 
-.file-controls a {
-    background-color: red;
-    color: white;
-    font-size: 25px;
+.fill-color {
+    opacity: 0;
+    grid-column: 3;
+    grid-row: 2;
+}
+
+.img-stroke-color {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    grid-column: 4;
+    grid-row: 1;
+}
+
+.stroke-color {
+    opacity: 0;
+    grid-column: 4;
+    grid-row: 2;
+}
+
+.btn-row-up {
+    background-image: url(../icon/up.png);
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.btn-row-down {
+    background-image: url(../icon/down.png);
+    grid-column: 2;
+    grid-row: 3;
+}
+
+.btn-row-left {
+    background-image: url(../icon/left.png);
+    grid-column: 1;
+    grid-row: 3;
+}
+
+.btn-row-right {
+    background-image: url(../icon/right.png);
+    grid-column: 4;
+    grid-row: 3;
+}
+
+.file-controls {
+    flex-direction: column;
+}
+
+.file-controls button, .file-controls a {
+    background-size: 200px;
+    width: 200px;
+    height: 66px;
+}
+
+.btn-save {
+    background-image: url(../icon/save.png);
+}
+
+.btn-share {
+    background-image: url(../icon/share.png);
+}
+
+.download-link {
+    background-image: url(../icon/download.png);
+    margin-inline-start: 5px;
 }
 
 /* Cover Main-Screen */
@@ -292,6 +362,12 @@ body.modal-open .main-screen {
 .buttons-container {
     grid-template-columns: 300px;
     grid-template-rows: 50px 50px 50px 50px;
+}
+
+.buttons-container button, .buttons-container a {
+    background-size: 150px;
+    width: 150px;
+    height: 50px;
 }
 
 body.saved-memes-modal-open .saved-memes-modal {

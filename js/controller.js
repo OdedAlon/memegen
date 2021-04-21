@@ -59,16 +59,14 @@ function renderModal() {
     let imgUrl = getMemeUrl(gCurrMeme);
     // Load the IMAGE befor rest of the render.
     const img = new Image()
-    console.log(imgUrl)
     img.src = imgUrl;
-    console.log(img)
     img.onload = drawImg(img);
     let currY = gCurrMeme.lines[gMeme.selectedLineIdx].pos.y;
     let size = gCurrMeme.lines[gMeme.selectedLineIdx].size;
     gCtx.beginPath();
-    gCtx.rect(20, currY - size, 460, 1.2 * size);
+    gCtx.rect(10, currY - size, 480, 1.2 * size);
     gCtx.fillStyle = gLineMarkerColor.fill;
-    gCtx.fillRect(20, currY - size, 460, 1.2 * size);
+    gCtx.fillRect(10, currY - size, 480, 1.2 * size);
     gCtx.strokeStyle = gLineMarkerColor.stroke;
     gCtx.stroke();
     gCtx.strokeStyle = 'black';
@@ -106,9 +104,25 @@ function onChangeFontSize(change) {
     renderModal();
 }
 
-function onChangeUpDownRow(change) {
+function onMoveUpDownRow(change) {
     let currY = gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.y += change;
-    setUpDownChange(currY);
+    setMoveUpDownRow(currY);
+    renderModal();
+}
+
+function onMoveSidesRow(change) {
+    let currX = gCurrMeme.lines[gCurrMeme.selectedLineIdx].pos.x += change;
+    setMoveSidesRow(currX);
+    renderModal();
+}
+
+function onChangefillColor(color) {
+    setFillColor(color);
+    renderModal();
+}
+
+function onChangeStrokeColor(color) {
+    setStrokeColor(color);
     renderModal();
 }
 
@@ -126,7 +140,8 @@ function drawImg(img) {
 function drawTextLine(line) {
     gCtx.font = `${line.size}px impact`;
     gCtx.fillStyle = `${line.color}`;
-    gCtx.textAlign = `${line.align}`;
+    gCtx.textAlign = 'center';
+    gCtx.strokeStyle = `${line.stroke}`;
     gCtx.fillText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);
     gCtx.strokeText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);
 }
@@ -217,8 +232,11 @@ function onOpenSavedMemesModal(gMemeId) {
     img.src = memesAsPNG[gMemeId];
     let strHtml = `
         <button onclick="onOpenMemeInEditor(${gMemeId})">Open in Editor</button>
-        <a class="download-link" href="#" onclick="onDownloadSavedCanvas(this)" download="">Download</a>
-        <button onclick="">Share</button>
+        <a class="download-link" href="#" onclick="onDownloadSavedCanvas(this)" download=""></a>
+        <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
+            <input name="img" id="imgData" type="hidden" />
+            <button class="btn btn-share" type="submit"></button>
+        </form>
         <button onclick="onRemoveMeme(${gMemeId})">Delete</button>`
     document.querySelector('.buttons-container').innerHTML = strHtml;
 }

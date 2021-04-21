@@ -11,9 +11,9 @@ var gMeme = {
     selectedLineIdx: 0, 
     lines: [ { 
         txt: 'I LOVE Tora!', 
-        size: 50, 
-        align: 'center', 
+        size: 50,  
         color: 'white',
+        stroke: 'black',
         pos: {x: 250, y: 50},
         isDragging: false
     } ] };
@@ -51,8 +51,16 @@ function setSizeChange(size) {
     gMeme.lines[gMeme.selectedLineIdx].size = size;
 }
 
-function setUpDownChange(currY) {
+function setMoveUpDownRow(currY) {
     gMeme.lines[gMeme.selectedLineIdx].pos.y = currY;
+}
+
+function setMoveSidesRow(currX) {
+    gMeme.lines[gMeme.selectedLineIdx].pos.x = currX;
+}
+
+function setFillColor(color) {
+    gMeme.lines[gMeme.selectedLineIdx].color = color;
 }
 
 function getImgById(imgId) {
