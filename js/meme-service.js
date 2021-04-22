@@ -33,10 +33,13 @@ var gMeme = {
         isDragging: false
     } ] };
 var gMemes = loadFromStorage('memes');
-var gMemesAsPNG  = loadFromStorage('memesAsPNG');
 
 function setMemePosX(currPosX) {
     gMeme.lines[0].pos.x = currPosX;
+}
+
+function getSavedId() {
+    return loadFromStorage('savedMemeEditMode');
 }
 
 function getDefMeme() {
@@ -80,6 +83,10 @@ function setMoveSidesRow(currX) {
 
 function setFillColor(color) {
     gMeme.lines[gMeme.selectedLineIdx].color = color;
+}
+
+function setStrokeColor(color) {
+    gMeme.lines[gMeme.selectedLineIdx].stroke = color;
 }
 
 function getImgById(imgId) {
@@ -134,46 +141,67 @@ function resetCurrMeme(currPosX) {
         } ] };
 }
 
-function saveMeme(memePngUrl) {
+function saveMeme(memeAsPng, meme, imgUrl) {
     let memes = loadFromStorage('memes');
     if (!memes) memes = [];
+    gMeme.memeAsPng = memeAsPng;
+    gMeme.imgUrl = imgUrl;    
     memes.push(gMeme);
     gMemes = memes;
-    console.log(gMemes);
     saveToStorage('memes', gMemes);
-    // From here - saves the url.
-    let memesAsPNG = loadFromStorage('memesAsPNG');
-    if (!memesAsPNG) memesAsPNG = [];
-    memesAsPNG.push(memePngUrl);
-    gMemesAsPNG = memesAsPNG; 
-    console.log(gMemesAsPNG);
-    saveToStorage('memesAsPNG', gMemesAsPNG);
 }
 
-function getMemesAsPNG() {
-    if (!gMemesAsPNG) gMemesAsPNG = [];
-    return gMemesAsPNG;
+function saveImgUrl(imgUrl) {
+    saveToStorage('editedImg', imgUrl);
+}
+
+function getImgUrl() {
+    return loadFromStorage('editedImg');
+}
+
+// function saveMeme(memeAsPng, meme, url) {
+//     let memes = loadFromStorage('memes');
+//     if (!memes) memes = [];
+//     memes.push(gMeme);
+//     gMemes = memes;
+//     console.log(gMemes);
+//     saveToStorage('memes', gMemes);
+//     // From here - saves the url.
+//     let memesAsPNG = loadFromStorage('memesAsPNG');
+//     if (!memesAsPNG) memesAsPNG = [];
+//     memesAsPNG.push(memeAsPng);
+//     gMemesAsPNG = memesAsPNG; 
+//     console.log(gMemesAsPNG);
+//     saveToStorage('memesAsPNG', gMemesAsPNG);
+// }
+
+function getMemes() {
+    gMemes = loadFromStorage('memes');
+    if (!gMemes) gMemes = [];
+    return gMemes;
 }
 
 function getMemeById(memeId) {
     return gMemes[memeId];
 }
 
-function setSavedMemeEditMode(memeId) {
-    saveToStorage('savedMemeEditMode', memeId);
+function saveEditedMeme(memeId) {
+    saveToStorage('editedMeme', getMemeById(memeId));
 }
 
-function resetSavedMemeEditMode() {
-    saveToStorage('savedMemeEditMode', '');
+function resetEditedMeme() {
+    saveToStorage('editedMeme', '');
+}
+
+function getEditedMeme() {
+    return loadFromStorage('editedMeme');
 }
 
 function removeMeme(memeId) {
     gMemes.splice(memeId, 1);
-    gMemesAsPNG.splice(memeId, 1);
     saveToStorage('memes', gMemes);
-    saveToStorage('memesAsPNG', gMemesAsPNG);
 }
 
-function setgMemeImgIdForUploadImg() {
+function setMemeImgIdForUploadImg() {
     gMeme.selectedImgId = -1;
 }

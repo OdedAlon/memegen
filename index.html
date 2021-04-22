@@ -20,39 +20,41 @@
             <div class="text-container flex">
                 <img src="img/logo.png" class="logo" />
             </div>
-            <div class="nav-bar flex align-center">
+            <nav class="nav-bar flex align-center">
                 <a class="link-gallery active" href="#">Gallery</a>
                 <a class="link-memes" href="memes.html">Memes</a>
-            </div>
+            </nav>
             <button class="btn-menu" onclick="toggleMenu()">☰</button>
         </div>
     </header>
     <main>
         <div class="main-container flex">
-            <div class="search-container">
+            <div class="search-container flex">
                 <input type="text" class="input-search" placeholder="Search" oninput="onSearchInput()"/>
+                <input id="file-input" type="file" class="file-input btn" name="image" onchange="onImgInput(event)" hidden/>
+                <div class="share-container"></div>
+                <label for="file-input"><div class="img-upload"></div></label>
+            </div>
+            <div class="upload-container">
             </div>
             <div class="gallery-container grid center">
                 <img src="img/1.jpg" />
             </div>
-            <input id="file-input" type="file" class="file-input btn" name="image" onchange="onImgInput(event)" hidden/>
-            <div class="share-container"></div>
-            <label for="file-input"><div class="img-upload"></div></label>
         </div>
     </main>
-    <footer class="flex center align-center">
-        <p class="copyright">Copyrights - buttons: Vecteezy.com * arrow icons: Dave Gandy * color icons: Freeplk</p>
+    <footer class="flex align-center">
+        <p class="copyright">Copyrights  Ⓒ</p>
     </footer>
 
     <div class="modal-container">
         <modal class="meme-editor-modal grid">
             <button class="btn-close-modal" onclick="onCloseModal()">X</button>
-            <div class="canvas-container">
-                <canvas class="meme-canvas" height="500" width="500"></canvas>
+            <div class="canvas-containerflex center center-align">
+                <canvas class="meme-canvas flex" height="500" width="500"></canvas>
             </div>
             <div class="canvas-controls flex align-center">
                 <input class="input-txt" name="input-txt" type="text" placeholder="Your text:"
-                    oninput="onTextChange()"></input>
+                onClick="this.select()" oninput="onTextChange()"></input>
                 <div class="lines-controls flex">
                     <button class="btn-switch-line" onclick="onSwitchLine()"></button>
                     <button class="btn-add-line" onclick="onAddLine()"></button>
@@ -81,10 +83,14 @@
             </div>
         </modal>
     </div>
+    <div class="modal-alert flex center align-center">
+        <h2>Your meme saved!</h2>
+    </div>
     <!-- <script src="js/touch-events-service.js"></script>   TODO: REmove!!!   -->
     <script src="js/upload-service.js"></script>
     <script src="js/storage-service.js"></script>
     <script src="js/meme-service.js"></script>
+    <script src="js/saved-meme-controller.js"></script>
     <script src="js/controller.js"></script>
 </body>
 

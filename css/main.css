@@ -44,16 +44,32 @@
     background-color: #383B42;
     margin: 20px;
     border-radius: 10px;
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .input-search {
     background-color: #22252C;
     border-radius: 2rem;
     font-size: 20px;
-    padding: 10px;
+    padding: 5px;
     margin: 10px;
     color: rgb(180, 166, 166);
 }
+
+
+.img-upload {
+    background-image: url(../icon/upload.png);
+    background-size: 120px;
+    width: 120px;
+    height: 48px;
+    margin: 10px;
+}
+
+.share-container {
+    display: flex;
+}
+
 
 .main-container {
     flex-direction: column;
@@ -74,21 +90,6 @@
     cursor: pointer;
     border-radius: 10px;
 }
-
-.img-upload {
-    background-image: url(../icon/upload.png);
-    background-size: 220px;
-    width: 220px;
-    height: 75px;
-    position: fixed;
-    bottom: 50px;
-    left: 50vw;
-    transform: translatex(-50%);
-}
-
-.share-container {
-    display: flex;
-  }
 
 /*   FOOTER */
 
@@ -319,6 +320,20 @@ body.modal-open .main-screen {
     opacity: 1;
 }
 
+/*                              *** SMALL MODAL - alert meme saved ***             */
+
+.modal-alert {
+    display: none;
+    width: 300px;
+    height: 150px;
+    background-color: rgba(211, 211, 211, 0.918);
+    border:1px solid rgba(0, 0, 0, .5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
 /*                              *** MEDIA QUERIES ***             */
 
 /* SMALL-MEDIUM */
@@ -468,8 +483,6 @@ body.modal-open .main-screen {
 @media (min-width: 1010px) {
     
     canvas {
-        width: 500px;
-        height: 500px;
         margin: 100px 20px;
     }
 

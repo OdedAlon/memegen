@@ -17,12 +17,12 @@ function onInit() {
     gElCanvas = document.querySelector('.meme-canvas');
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
-    gMemeId = loadFromStorage('savedMemeEditMode');
-    if (gMemeId || gMemeId === 0) {
+    let meme = getEditedMeme(); // If saved-meme is edited, when index.html opened the saved-meme is upload. 
+    if (meme) {
         toggleModal();
-        renderModal(gMemeId);
+        renderModal();
     } else {
-        // Set the x position in center, in accordance to window's width
+        // Set the x position in center, in accordance to window's width.
         let currPosX;
         if (window.innerWidth < 620) currPosX = 125;
         else if (window.innerWidth < 1010) currPosX = 200;
@@ -59,19 +59,19 @@ function onOpenModal(imgId) {
 }
 
 function renderModal() {
-    if (gMemeId === -1) {
-        gCurrMeme = getDefMeme();
-        setgMemeImgIdForUploadImg();
-        var imgUrl = gImg.src;
+    let meme = getEditedMeme(); // If saved-meme is edited, when index.html opened the saved-meme is upload. 
+    if (meme) {
+        gCurrMeme = meme;
+        var imgUrl = meme.imgUrl;
     } else {
-        if (!gMemeId && gMemeId !== 0) {
+        if (gMemeId === -1) {
             gCurrMeme = getDefMeme();
+            setMemeImgIdForUploadImg();
+            var imgUrl = gImg.src;
+        } else {
+            gCurrMeme = getDefMeme();
+            var imgUrl = getMemeUrl(gCurrMeme);
         }
-        else {
-            gCurrMeme = getMemeById(gMemeId);
-            setCurrMeme(gCurrMeme);
-        }
-        var imgUrl = getMemeUrl(gCurrMeme);
     }
     const img = new Image()
     img.src = imgUrl;
@@ -100,6 +100,7 @@ function resizeCanvas(img) {
 
 function drawMeme(img) {
     drawImg(img);
+    saveImgUrl(gElCanvas.toDataURL()); 
     drawLineFrame();
     let txt = gCurrMeme.lines[gMeme.selectedLineIdx].txt;
     document.querySelector('input[name="input-txt"]').value = txt;
@@ -190,7 +191,7 @@ function onCloseModal() {
     else currPosX = 250;
     resetCurrMeme(currPosX);
     // TODO: Maybe change the name to reset-gMemeId
-    resetSavedMemeEditMode()
+    resetEditedMeme();
     gImg = '';
     gMemeId = '';
     toggleModal();
@@ -202,47 +203,18 @@ function onTextChange() {
     renderModal();
 }
 
-function onUploadImg() {
-
-}
-
 function toggleModal() {
     document.body.classList.toggle('modal-open');
 }
 
-// TODO: Add a modal that saies it saved;
 function onSaveMeme() {
     gLineMarkerColor = { fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0' };
     renderModal();
-    saveMeme(gElCanvas.toDataURL());
+    saveMeme(gElCanvas.toDataURL(), gCurrMeme, getImgUrl());
     gLineMarkerColor = { fill: 'rgb(210, 210, 210, .7)', stroke: 'black' };
     renderModal();
-}
-
-function onMemesInit() {
-    renderMemes();
-}
-
-// TODO: Change from id to data;
-function renderMemes() {
-    let memesAsPNG = getMemesAsPNG();
-    let strHtml = '';
-    for (let i = 0; i < memesAsPNG.length; i++) {
-        strHtml += `<canvas class="saved-meme-canvas" id="${i}" height="500" width="500" 
-        onclick="onOpenSavedMemesModal(${i})"></canvas>`;
-    }
-    document.querySelector('.memes-container').innerHTML = strHtml;
-
-    // TODO: Replace FOR with REDUCE.
-    for (let i = 0; i < memesAsPNG.length; i++) {
-        let img = new Image();
-        img.onload = () => {
-            let elCanvas = document.getElementById(`${i}`);
-            let ctx = elCanvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
-        }
-        img.src = memesAsPNG[i];
-    }
+    document.querySelector('.modal-alert').style.display = 'flex';
+    setTimeout(() => { document.querySelector('.modal-alert').style.display = 'none' }, 3000);
 }
 
 function onDownloadCanvas(elLink) {
@@ -253,49 +225,6 @@ function onDownloadCanvas(elLink) {
     elLink.download = 'my-canvas.jpg';
     gLineMarkerColor = { fill: 'rgb(210, 210, 210, .7)', stroke: 'black' };
     renderModal();
-}
-
-function onOpenSavedMemesModal(gMemeId) {
-    toggleSavedMemesModal();
-    let memesAsPNG = getMemesAsPNG();
-    let img = new Image();
-    img.onload = () => {
-        let elCanvas = document.querySelector('.saved-memes-modal-canvas');
-        let ctx = elCanvas.getContext('2d');
-        ctx.drawImage(img, 0, 0);
-    }
-    img.src = memesAsPNG[gMemeId];
-    let strHtml = `
-        <button class="btn-edit" onclick="onOpenMemeInEditor(${gMemeId})"></button>
-        <a class="download-link" href="#" onclick="onDownloadSavedCanvas(this)" download=""></a>
-        <form action="" method="POST" enctype="multipart/form-data" onsubmit="uploadImg(this, event)">
-            <input name="img" id="imgData" type="hidden" />
-            <button class="btn btn-share" type="submit"></button>
-        </form>
-        <button class="btn-remove" onclick="onRemoveMeme(${gMemeId})"></button>`
-    document.querySelector('.buttons-container').innerHTML = strHtml;
-}
-
-function toggleSavedMemesModal() {
-    document.body.classList.toggle('saved-memes-modal-open');
-}
-
-function onOpenMemeInEditor(gMemeId) {
-    setSavedMemeEditMode(gMemeId);
-    window.location.assign('index.html');
-}
-
-function onDownloadSavedCanvas(elLink) {
-    let elCanvas = document.querySelector('.saved-memes-modal-canvas');
-    const data = elCanvas.toDataURL();
-    elLink.href = data;
-    elLink.download = 'my-canvas.jpg';
-}
-
-function onRemoveMeme(gMemeId) {
-    removeMeme(gMemeId);
-    toggleSavedMemesModal();
-    renderMemes();
 }
 
 function toggleMenu() {
@@ -391,7 +320,7 @@ function loadImgFromInput(ev, onImgReady) {
         var img = new Image();
         img.onload = onImgReady.bind(null, img);
         img.src = event.target.result;
-        gImg = img
+        gImg = img;
     }
     reader.readAsDataURL(ev.target.files[0]);
 }
