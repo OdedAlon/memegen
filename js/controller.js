@@ -126,7 +126,7 @@ function drawLineFrame() {
 }
 
 function drawTextLine(line) {
-    gCtx.font = `${line.size}px impact`;
+    gCtx.font = `${line.size}px opensans`;
     gCtx.fillStyle = `${line.color}`;
     gCtx.textAlign = 'center';
     gCtx.strokeStyle = `${line.stroke}`;
