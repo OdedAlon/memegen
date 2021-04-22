@@ -21,6 +21,13 @@ function onInit() {
     if (gMemeId || gMemeId === 0) {
         toggleModal();
         renderModal(gMemeId);
+    } else {
+        // Set the x position in center, in accordance to window's width
+        let currPosX;
+        if (window.innerWidth < 620) currPosX = 125;
+        else if (window.innerWidth < 1010) currPosX = 200;
+        else currPosX = 250;
+        setMemePosX(currPosX);
     }
     addListeners();
 }
@@ -57,31 +64,74 @@ function renderModal() {
         setgMemeImgIdForUploadImg();
         var imgUrl = gImg.src;
     } else {
-        if (!gMemeId && gMemeId !== 0) gCurrMeme = getDefMeme();
+        if (!gMemeId && gMemeId !== 0) {
+            gCurrMeme = getDefMeme();
+        }
         else {
             gCurrMeme = getMemeById(gMemeId);
             setCurrMeme(gCurrMeme);
         }
         var imgUrl = getMemeUrl(gCurrMeme);
     }
-    // Load the IMAGE befor rest of the render.
     const img = new Image()
     img.src = imgUrl;
-    img.onload = drawImg(img);
-    let currY = gCurrMeme.lines[gMeme.selectedLineIdx].pos.y;
-    let size = gCurrMeme.lines[gMeme.selectedLineIdx].size;
-    gCtx.beginPath();
-    gCtx.rect(10, currY - size, 480, 1.2 * size);
-    gCtx.fillStyle = gLineMarkerColor.fill;
-    gCtx.fillRect(10, currY - size, 480, 1.2 * size);
-    gCtx.strokeStyle = gLineMarkerColor.stroke;
-    gCtx.stroke();
-    gCtx.strokeStyle = 'black';
+    gElCanvas.height = img.height;
+    gElCanvas.width = img.width;
+    resizeCanvas(img)
+    img.onload = drawMeme(img);
+}
+
+function resizeCanvas(img) {
+    let canvasSize;
+    if (window.innerWidth < 620) canvasSize = 250;
+    else if (window.innerWidth < 1010) canvasSize = 400;
+    else canvasSize = 500;
+    if (img.height > canvasSize || img.width > canvasSize) {
+        let imgProportion = img.height / img.width;
+        if (imgProportion < 1) {
+            gElCanvas.height = canvasSize * imgProportion;
+            gElCanvas.width = canvasSize;
+        } else {
+            gElCanvas.height = canvasSize;
+            gElCanvas.width = canvasSize / imgProportion;
+        }
+    }
+}
+
+function drawMeme(img) {
+    drawImg(img);
+    drawLineFrame();
     let txt = gCurrMeme.lines[gMeme.selectedLineIdx].txt;
     document.querySelector('input[name="input-txt"]').value = txt;
     gCurrMeme.lines.forEach(line => {
         drawTextLine(line);
     })
+}
+
+function drawImg(img) {
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
+}
+
+function drawLineFrame() {
+    let currY = gCurrMeme.lines[gMeme.selectedLineIdx].pos.y;
+    let size = gCurrMeme.lines[gMeme.selectedLineIdx].size;
+    let frameWidth = gElCanvas.width - 20;
+    gCtx.beginPath();
+    gCtx.rect(10, currY - size, frameWidth, 1.2 * size);
+    gCtx.fillStyle = gLineMarkerColor.fill;
+    gCtx.fillRect(10, currY - size, frameWidth, 1.2 * size);
+    gCtx.strokeStyle = gLineMarkerColor.stroke;
+    gCtx.stroke();
+    gCtx.strokeStyle = 'black';
+}
+
+function drawTextLine(line) {
+    gCtx.font = `${line.size}px impact`;
+    gCtx.fillStyle = `${line.color}`;
+    gCtx.textAlign = 'center';
+    gCtx.strokeStyle = `${line.stroke}`;
+    gCtx.fillText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);
+    gCtx.strokeText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);
 }
 
 function onAddLine() {
@@ -134,25 +184,16 @@ function onChangeStrokeColor(color) {
 }
 
 function onCloseModal() {
-    resetgCurrMeme();
+    let currPosX;
+    if (window.innerWidth < 620) currPosX = 125;
+    else if (window.innerWidth < 1010) currPosX = 200;
+    else currPosX = 250;
+    resetCurrMeme(currPosX);
     // TODO: Maybe change the name to reset-gMemeId
     resetSavedMemeEditMode()
     gImg = '';
     gMemeId = '';
     toggleModal();
-}
-
-function drawImg(img) {
-    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height);
-}
-
-function drawTextLine(line) {
-    gCtx.font = `${line.size}px impact`;
-    gCtx.fillStyle = `${line.color}`;
-    gCtx.textAlign = 'center';
-    gCtx.strokeStyle = `${line.stroke}`;
-    gCtx.fillText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);
-    gCtx.strokeText(`${line.txt}`, `${line.pos.x}`, `${line.pos.y}`);
 }
 
 function onTextChange() {

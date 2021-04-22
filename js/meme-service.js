@@ -2,7 +2,7 @@
 
 // var gKeywords = {'happy': 12,'funny puk': 1};
 var gImgs = [
-    {id: 1, url: 'img/1.jpg', keywords: ['tramp']},
+    {id: 1, url: 'img/1.jpg', keywords: ['tramp', 'politics']},
     {id: 2, url: 'img/2.jpg', keywords: ['happy', 'dog']},
     {id: 3, url: 'img/3.jpg', keywords: ['happy', 'dog', 'baby']},
     {id: 4, url: 'img/4.jpg', keywords: ['happy', 'cat', 'computer']},
@@ -11,21 +11,21 @@ var gImgs = [
     {id: 7, url: 'img/7.jpg', keywords: ['surprise', 'baby']},
     {id: 8, url: 'img/8.jpg', keywords: ['happy', 'satisfied']},
     {id: 9, url: 'img/9.jpg', keywords: ['happy', 'baby', 'amused', 'prank', 'maggach']},
-    {id: 10, url: 'img/10.jpg', keywords: ['happy', 'laughs', 'obama']},
+    {id: 10, url: 'img/10.jpg', keywords: ['happy', 'laughs', 'obama', 'politics']},
     {id: 11, url: 'img/11.jpg', keywords: ['suffocating', 'strangle', 'wrestler', 'wrestlers', 'beatings']},
     {id: 12, url: 'img/12.jpg', keywords: ['you', 'surprise']},
     {id: 13, url: 'img/13.jpg', keywords: ['happy', 'toast', 'wine']},
     {id: 14, url: 'img/14.jpg', keywords: ['scary', 'sunglasses', 'beatings', 'serious']},
     {id: 15, url: 'img/15.jpg', keywords: ['exactly', 'satisfied', 'you']},
     {id: 16, url: 'img/16.jpg', keywords: ['laughs', 'embarrassment', 'awkward', 'tears']},
-    {id: 17, url: 'img/17.jpg', keywords: ['victory', 'two']},
+    {id: 17, url: 'img/17.jpg', keywords: ['putin', 'politics']},
     {id: 18, url: 'img/18.jpg', keywords: ['to cheer', 'toy', 'toys', 'encouraging']},
     ]; 
 var gMeme = { 
     selectedImgId: 1, 
     selectedLineIdx: 0, 
     lines: [ { 
-        txt: 'I LOVE Tora!', 
+        txt: 'Your text', 
         size: 50,  
         color: 'white',
         stroke: 'black',
@@ -34,6 +34,10 @@ var gMeme = {
     } ] };
 var gMemes = loadFromStorage('memes');
 var gMemesAsPNG  = loadFromStorage('memesAsPNG');
+
+function setMemePosX(currPosX) {
+    gMeme.lines[0].pos.x = currPosX;
+}
 
 function getDefMeme() {
     return gMeme;
@@ -117,16 +121,16 @@ function removeLine() {
     switchLine();
 }
 
-function resetgCurrMeme() {
+function resetCurrMeme(currPosX) {
     gMeme = { 
         selectedImgId: 1, 
         selectedLineIdx: 0, 
         lines: [ { 
-            txt: 'I LOVE Tora!', 
+            txt: 'Your text', 
             size: 50, 
             align: 'center', 
             color: 'white',
-            pos: {x: 250, y: 50} 
+            pos: {x: currPosX, y: 50} 
         } ] };
 }
 

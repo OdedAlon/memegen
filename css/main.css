@@ -3,6 +3,17 @@
     src: url(../font/HindVadodara-Regular.ttf);
 }
 
+@font-face {
+    font-family: impact;
+    src: url(../font/impact.ttf);
+}
+
+@font-face {
+    font-family: suezone;
+    src: url(../font/SuezOne-Regular.ttf);
+}
+
+
 /*                              *** BASE ***             */
 
 * {
@@ -144,8 +155,7 @@ footer {
 
 canvas {
     background-color: #fff;
-    width: 250px;
-    height: 250px;
+ 
     margin: 20px 35px 10px;
     cursor: grab;
 }
@@ -479,8 +489,7 @@ body.saved-memes-modal-open .memes-main-screen {
 
 @media (min-width: 620px) {
     canvas {
-        width: 400px;
-        height: 400px;
+ 
         margin: 40px;
     }
 
@@ -553,8 +562,6 @@ body.saved-memes-modal-open .memes-main-screen {
 
 @media (min-width: 800px) {
     canvas {
-        width: 400px;
-        height: 400px;
         margin: 100px 20px;
     }
     
