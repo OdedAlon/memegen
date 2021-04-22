@@ -380,16 +380,16 @@ function onUp() {
 function onImgInput(ev) {
     toggleModal();
     gMemeId = -1;
-    loadImageFromInput(ev, renderImg);
+    loadImgFromInput(ev, renderImg);
 }
 
-function loadImageFromInput(ev, onImageReady) {
+function loadImgFromInput(ev, onImgReady) {
     document.querySelector('.share-container').innerHTML = '';
     var reader = new FileReader();
 
     reader.onload = function (event) {
         var img = new Image();
-        img.onload = onImageReady.bind(null, img);
+        img.onload = onImgReady.bind(null, img);
         img.src = event.target.result;
         gImg = img
     }

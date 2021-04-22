@@ -1,0 +1,76 @@
+@font-face {
+    font-family: HindVadodara;
+    src: url(../font/HindVadodara-Regular.ttf);
+}
+
+@font-face {
+    font-family: impact;
+    src: url(../font/impact.ttf);
+}
+
+@font-face {
+    font-family: suezone;
+    src: url(../font/SuezOne-Regular.ttf);
+}
+
+
+/*                              *** BASE ***             */
+
+* {
+    box-sizing: border-box;
+}
+  
+html {
+    font-family: HindVadodara;
+}
+  
+body {
+    margin: 0;
+    background-color: #22252C;	
+}
+  
+h1,
+h2,
+h3,
+h4,
+h5,
+p {
+    margin: 0;
+}
+  
+a {
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+
+/*                              *** HELPERS ***             */
+
+.flex {
+    display: flex;
+}
+
+.grid {
+    display: grid;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.clean-list {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}

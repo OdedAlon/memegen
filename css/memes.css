@@ -1,0 +1,92 @@
+/*                              *** MEMES - COMPONENTS ***             */
+
+/*   MAIN */
+
+.memes-container {
+    background-color: #383B42;
+    margin: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 200px);    
+    grid-template-rows: 200px;
+    gap: 20px 20px;
+}
+
+.memes-container canvas {
+    cursor: pointer;
+}
+
+.saved-meme-canvas {
+    width: 200px;
+    height: 200px;
+    margin: 0;
+}
+
+/*   saved-memes-MODAL */
+
+.saved-memes-modal {
+    /* background-color: #fff; */
+    width: 400px;
+    height: 520px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -200%);
+    background-color: #22252C;
+    border: 1px solid #4b4b4b;
+    grid-template-columns: 300px;
+    grid-template-rows: 300px 200px;
+    transition: transform .6s;
+}
+
+.buttons-container {
+    grid-template-columns: 300px;
+    grid-template-rows: 53px 53px 53px 53px;
+    justify-items: center;
+}
+
+.buttons-container button, .buttons-container a {
+    background-color: rgba(255, 255, 255, 0);
+    border: none;
+    background-size: 135px;
+    width: 135px;
+    height: 53px;
+    margin: 8px;
+}
+
+.btn-edit {
+    background-image: url(../icon//edit.png)
+}
+
+.btn-remove {
+    background-image: url(../icon/remove.png)
+}
+
+body.saved-memes-modal-open .saved-memes-modal {
+    transform: translate(-50%, -50%);
+}
+
+.saved-memes-modal-canvas {
+    width: 300px;
+    height: 300px;
+    margin: 0;
+}
+
+/* Cover Memes-Main-Screen */
+
+.memes-main-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    cursor: pointer;
+    pointer-events: none;  
+    opacity: 0;
+    transition: opacity .8s;
+}
+
+body.saved-memes-modal-open .memes-main-screen {
+    pointer-events: auto;
+    opacity: 1;
+}
