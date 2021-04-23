@@ -29,8 +29,15 @@
     </header>
     <main>
         <div class="main-container flex">
-            <div class="search-container flex">
+            <div class="img-controls-container flex">
                 <input type="text" class="input-search" placeholder="Search" oninput="onSearchInput()"/>
+                <div class="filters grid" onclick="onFilterGalleryClick(event.target.name)">
+                    <a class="str-happy" name="happy" href="#" >Happy</a>
+                    <a class="str-men" name="men" href="#" >Men</a>
+                    <a class="str-animals" name="animals" href="#" >Animals</a>
+                    <a class="str-politics" name="politics" href="#" ">Politics</a>
+                    <a class="str-baby" name="baby" href="#" ">Baby</a>
+                </div>
                 <input id="file-input" type="file" class="file-input btn" name="image" onchange="onImgInput(event)" hidden/>
                 <div class="share-container"></div>
                 <label for="file-input"><div class="img-upload"></div></label>

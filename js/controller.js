@@ -17,6 +17,7 @@ function onInit() {
     gElCanvas = document.querySelector('.meme-canvas');
     gCtx = gElCanvas.getContext('2d')
     renderGallery();
+    renderFilterGallery();
     let meme = getEditedMeme(); // If saved-meme is edited, when index.html opened the saved-meme is upload. 
     if (meme) {
         toggleModal();
@@ -50,6 +51,28 @@ function onSearchInput() {
         });
         document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
     }
+}
+
+function onFilterGalleryClick(key) {
+    let imgs = getSearchedImgs(key);
+    if (!imgs.length) renderGallery();
+    else {
+        let strHtmls = imgs.map(img => {
+            return `<img src=${img.url} onclick="onOpenModal(${img.id})" />`
+        });
+        document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
+    }
+    setFilterClickedMap(key);
+    renderFilterGallery();
+}
+
+function renderFilterGallery() {
+    let filterClickedMap = getFilterClickedMap();
+    document.querySelector('.str-happy').style.fontSize = `${filterClickedMap['happy']}px`;
+    document.querySelector('.str-men').style.fontSize = `${filterClickedMap['men']}px`;
+    document.querySelector('.str-animals').style.fontSize = `${filterClickedMap['animals']}px`;
+    document.querySelector('.str-politics').style.fontSize = `${filterClickedMap['politics']}px`;
+    document.querySelector('.str-baby').style.fontSize = `${filterClickedMap['baby']}px`;
 }
 
 function onOpenModal(imgId) {

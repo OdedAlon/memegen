@@ -15,7 +15,7 @@ function renderMemes() {
     }
     document.querySelector('.memes-container').innerHTML = strHtml;
 
-    // TODO: Replace FOR with REDUCE.
+    // TODO: Replace FOR with REDUCE. or for meme in memes
     for (let i = 0; i < memes.length; i++) {
         let img = new Image();
         img.onload = () => {
