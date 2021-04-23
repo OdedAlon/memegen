@@ -68,11 +68,17 @@ function onFilterGalleryClick(key) {
 
 function renderFilterGallery() {
     let filterClickedMap = getFilterClickedMap();
-    document.querySelector('.str-happy').style.fontSize = `${filterClickedMap['happy']}px`;
-    document.querySelector('.str-men').style.fontSize = `${filterClickedMap['men']}px`;
-    document.querySelector('.str-animals').style.fontSize = `${filterClickedMap['animals']}px`;
-    document.querySelector('.str-politics').style.fontSize = `${filterClickedMap['politics']}px`;
-    document.querySelector('.str-baby').style.fontSize = `${filterClickedMap['baby']}px`;
+    if (window.innerWidth >= 800) {
+        for (let filter in filterClickedMap) {
+            document.querySelector(`.str-${filter}`).style.fontSize = `${filterClickedMap[filter]}px`;
+        }
+    } else {
+        for (let filter in filterClickedMap) {
+            let smallFont = filterClickedMap[filter] - 6;
+            if (smallFont > 18.5) smallFont = 18.5;
+            document.querySelector(`.str-${filter}`).style.fontSize = `${smallFont}px`;
+        }
+    }
 }
 
 function onOpenModal(imgId) {
@@ -123,7 +129,7 @@ function resizeCanvas(img) {
 
 function drawMeme(img) {
     drawImg(img);
-    saveImgUrl(gElCanvas.toDataURL()); 
+    saveImgUrl(gElCanvas.toDataURL());
     drawLineFrame();
     let txt = gCurrMeme.lines[gMeme.selectedLineIdx].txt;
     document.querySelector('input[name="input-txt"]').value = txt;

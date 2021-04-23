@@ -53,19 +53,19 @@
     border-radius: 2rem;
     font-size: 20px;
     padding: 5px;
-    margin: 10px;
+    margin: 10px 10px 0 10px;
     color: rgb(180, 166, 166);
 }
 
 .filters {
     background-color: rgb(138, 138, 138);
-    width: 50%;
+    width: 500px;
     border-radius: 30px;
-    margin: 10px;
+    margin: 5px;
     padding: 0 0 0 8px;
     align-items: center;
     justify-items: center;
-    grid-template-columns: 100px 100px 100px 100px 100px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     grid-template-rows: 48px;
 }
 
@@ -76,10 +76,10 @@
 
 .img-upload {
     background-image: url(../icon/upload.png);
-    background-size: 120px;
-    width: 120px;
-    height: 48px;
-    margin: 10px;
+    background-size: 80px;
+    width: 80px;
+    height: 32px;
+    margin: 3px;
 }
 
 .share-container {
@@ -399,6 +399,17 @@ body.modal-open .main-screen {
         display: none;
     }
 
+    .filters {
+        margin: 10px;
+    }
+
+    .img-upload {
+        background-size: 120px;
+        width: 120px;
+        height: 48px;
+        margin: 10px;
+    }
+
     .gallery-container {
         grid-template-columns: repeat(auto-fill, 200px);    
         grid-template-rows: 200px;
@@ -429,6 +440,10 @@ body.modal-open .main-screen {
         margin: 100px 20px;
     }
     
+    .input-search {
+        margin: 10px;
+    }
+
     .meme-editor-modal {
         width: 750px;
         height: 700px;
