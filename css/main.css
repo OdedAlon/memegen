@@ -115,6 +115,7 @@
 
 .img-container:hover img{
     transform: scale(1.1);
+    transition: transform 0.3s ease;
 }
 
 .img-cover {
@@ -127,6 +128,7 @@
 
 .img-cover:hover {
     background-color: rgba(255, 255, 255, 0.3);
+    transition: background-color 0.3s ease;
 }
 
 /*   FOOTER */
@@ -444,6 +446,10 @@ body.modal-open .main-screen {
     
     .img-container img {
         max-width: 200px;
+    }
+
+    .img-cover {
+        transform: translateY(-103%);
     }
 
     .meme-editor-modal {
