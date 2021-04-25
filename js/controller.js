@@ -4,7 +4,6 @@ var gElCanvas;
 var gCtx;
 var gDraggedLine;
 var gStartPos;
-var gLineMarkerColor = { fill: 'rgb(210, 210, 210, .7)', stroke: 'black' };
 var gImg;
 
 // TODO: Check if necessery as a global - gCurrMeme & gMemeId.
@@ -36,7 +35,11 @@ function onInit() {
 function renderGallery() {
     let imgs = getImgs();
     let strHtmls = imgs.map(img => {
-        return `<img src=${img.url} onclick="onOpenModal(${img.id})" />`
+        return `
+        <div class="img-container">
+        <img src=${img.url} onclick="onOpenModal(${img.id})" />
+        <div class="img-cover"></div>
+        </div>`
     });
     document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
 }
@@ -148,9 +151,14 @@ function drawLineFrame() {
     let frameWidth = gElCanvas.width - 20;
     gCtx.beginPath();
     gCtx.rect(10, currY - size, frameWidth, 1.2 * size);
-    gCtx.fillStyle = gLineMarkerColor.fill;
+    if (isLineFrameModeTrue()) {
+        gCtx.fillStyle = 'rgb(210, 210, 210, .7)';
+        gCtx.strokeStyle = 'black';
+    } else {
+        gCtx.fillStyle = 'rgb(0, 0, 0, .0';
+        gCtx.strokeStyle = 'rgb(0, 0, 0, .0';
+    }
     gCtx.fillRect(10, currY - size, frameWidth, 1.2 * size);
-    gCtx.strokeStyle = gLineMarkerColor.stroke;
     gCtx.stroke();
     gCtx.strokeStyle = 'black';
 }
@@ -237,22 +245,22 @@ function toggleModal() {
 }
 
 function onSaveMeme() {
-    gLineMarkerColor = { fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0' };
+    toggleLineFrameMode();
     renderModal();
     saveMeme(gElCanvas.toDataURL(), gCurrMeme, getImgUrl());
-    gLineMarkerColor = { fill: 'rgb(210, 210, 210, .7)', stroke: 'black' };
+    toggleLineFrameMode();
     renderModal();
     document.querySelector('.modal-alert').style.display = 'flex';
     setTimeout(() => { document.querySelector('.modal-alert').style.display = 'none' }, 3000);
 }
 
 function onDownloadCanvas(elLink) {
-    gLineMarkerColor = { fill: 'rgb(0, 0, 0, .0', stroke: 'rgb(0, 0, 0, .0' };
+    toggleLineFrameMode();
     renderModal();
     const data = gElCanvas.toDataURL();
     elLink.href = data;
     elLink.download = 'my-canvas.jpg';
-    gLineMarkerColor = { fill: 'rgb(210, 210, 210, .7)', stroke: 'black' };
+    toggleLineFrameMode();
     renderModal();
 }
 

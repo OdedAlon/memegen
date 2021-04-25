@@ -102,10 +102,31 @@
     border-radius: 10px;
 }
 
-.gallery-container img {
-    max-width: 120px;
-    cursor: pointer;
+.img-container {
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
     border-radius: 10px;
+}
+
+.img-container img {
+    max-width: 100%;
+}
+
+.img-container:hover img{
+    transform: scale(1.1);
+}
+
+.img-cover {
+    width: 100%;
+    min-height: 100%;
+    transform: translateY(-105%);
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.img-cover:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 /*   FOOTER */
@@ -415,8 +436,13 @@ body.modal-open .main-screen {
         grid-template-rows: 200px;
         padding: 20px;
     }
+
+    .img-container {
+        width: 200px;
+        height: 200px;
+    }
     
-    .gallery-container img {
+    .img-container img {
         max-width: 200px;
     }
 

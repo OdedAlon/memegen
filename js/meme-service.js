@@ -40,6 +40,15 @@ var gFilterClickedMap = {
     politics: 18,
     baby: 13
 };
+var gLineFrameMode = true;
+
+function toggleLineFrameMode() {
+    gLineFrameMode = (gLineFrameMode)? false : true;
+}
+
+function isLineFrameModeTrue() {
+    return gLineFrameMode;
+}
 
 function setMemePosX(currPosX) {
     gMeme.lines[0].pos.x = currPosX;
