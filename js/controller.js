@@ -110,8 +110,8 @@ function renderModal() {
     gElCanvas.height = img.height;
     gElCanvas.width = img.width;
     resizeCanvas(img)
-    addListeners();
     img.onload = drawMeme(img);
+    addListeners();
 }
 
 function resizeCanvas(img) {
@@ -290,7 +290,7 @@ function addTouchListeners() {
 }
 
 function getEvPos(ev) {
-    const pos = {
+    let pos = {
         x: ev.offsetX,
         y: ev.offsetY
     }
