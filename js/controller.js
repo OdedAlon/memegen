@@ -37,8 +37,8 @@ function renderGallery() {
     let strHtmls = imgs.map(img => {
         return `
         <div class="img-container">
-        <img src=${img.url} onclick="onOpenModal(${img.id})" />
-        <div class="img-cover"></div>
+        <img src=${img.url} />
+        <div class="img-cover" onclick="onOpenModal(${img.id})" ></div>
         </div>`
     });
     document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
@@ -110,6 +110,7 @@ function renderModal() {
     gElCanvas.height = img.height;
     gElCanvas.width = img.width;
     resizeCanvas(img)
+    addListeners();
     img.onload = drawMeme(img);
 }
 
