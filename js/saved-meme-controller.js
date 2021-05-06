@@ -36,7 +36,6 @@ function onOpenSavedMemesModal(memeId) {
     let memes = getMemes();
     let img = new Image();
     img.src = memes[memeId].imgUrl;
-    console.log(memes[memeId].imgUrl)
     img.onload = () => {
         let elCanvas = document.querySelector('.saved-memes-modal-canvas');
         let ctx = elCanvas.getContext('2d');

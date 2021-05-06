@@ -18,7 +18,7 @@
     <header class="flex center">
         <div class="gradient-container flex">
             <div class="text-container flex">
-                <img src="img/logo.png" class="logo" />
+                <img src="./img/logo.png" class="logo" />
             </div>
             <nav class="nav-bar flex align-center">
                 <a class="link-gallery active" href="#">Gallery</a>
@@ -57,11 +57,11 @@
         <modal class="meme-editor-modal grid">
             <button class="btn-close-modal" onclick="onCloseModal()">X</button>
             <div class="canvas-containerflex center center-align">
-                <canvas class="meme-canvas flex" height="500" width="500"></canvas>
+                <canvas class="meme-canvas flex" height="" width=""></canvas>
             </div>
             <div class="canvas-controls flex align-center">
                 <input class="input-txt" name="input-txt" type="text" placeholder="Your text:"
-                onClick="this.select()" oninput="onTextChange()"></input>
+                onClick="this.select()" oninput="onTextChange()" autofocus></input>
                 <div class="lines-controls flex">
                     <button class="btn-switch-line" onclick="onSwitchLine()"></button>
                     <button class="btn-add-line" onclick="onAddLine()"></button>

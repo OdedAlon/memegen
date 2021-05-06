@@ -50,7 +50,11 @@ function onSearchInput() {
     if (!imgs.length) renderGallery();
     else {
         let strHtmls = imgs.map(img => {
-            return `<img src=${img.url} onclick="onOpenModal(${img.id})" />`
+            return `
+            <div class="img-container">
+            <img src=${img.url} />
+            <div class="img-cover" onclick="onOpenModal(${img.id})" ></div>
+            </div>`
         });
         document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
     }
@@ -61,7 +65,10 @@ function onFilterGalleryClick(key) {
     if (!imgs.length) renderGallery();
     else {
         let strHtmls = imgs.map(img => {
-            return `<img src=${img.url} onclick="onOpenModal(${img.id})" />`
+            return `<div class="img-container">
+            <img src=${img.url} />
+            <div class="img-cover" onclick="onOpenModal(${img.id})" ></div>
+            </div>`
         });
         document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
     }
@@ -109,9 +116,8 @@ function renderModal() {
     img.src = imgUrl;
     gElCanvas.height = img.height;
     gElCanvas.width = img.width;
-    resizeCanvas(img)
+    resizeCanvas(img);
     img.onload = drawMeme(img);
-    addListeners();
 }
 
 function resizeCanvas(img) {
