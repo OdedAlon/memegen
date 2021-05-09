@@ -76,7 +76,7 @@ function getImgs() {
 
 function getSearchedImgs(val) {
     let imgs = gImgs.filter(img => {
-        return img.keywords.includes(val.toLowerCase());
+        return img.keywords.join(',').includes(val.toLowerCase());
     })
     return imgs;
 }

@@ -47,17 +47,14 @@ function renderGallery() {
 function onSearchInput() {
     let val = document.querySelector('.input-search').value;
     let imgs = getSearchedImgs(val);
-    if (!imgs.length) renderGallery();
-    else {
-        let strHtmls = imgs.map(img => {
-            return `
+    let strHtmls = imgs.map(img => {
+        return `
             <div class="img-container">
             <img src=${img.url} />
             <div class="img-cover" onclick="onOpenModal(${img.id})" ></div>
             </div>`
-        });
-        document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
-    }
+    });
+    document.querySelector('.gallery-container').innerHTML = strHtmls.join('');
 }
 
 function onFilterGalleryClick(key) {
